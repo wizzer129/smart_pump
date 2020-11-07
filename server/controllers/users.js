@@ -1,6 +1,5 @@
 const dbClient = require('../config/dbClient');
 const { db } = require('../config/database');
-const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
     /**
@@ -51,7 +50,7 @@ module.exports = {
         try {
             const user = await db
                 .get('users')
-                .push({ ...req.body, guid: uuidv4() })
+                .push({ ...req.body })
                 .write();
             return res.json({ success: true, data: user });
         } catch (err) {

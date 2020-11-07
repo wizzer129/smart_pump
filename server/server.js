@@ -6,6 +6,10 @@ const app = express();
 const auth = require('./routes/auth');
 const users = require('./routes/users');
 
+// configure to read json request
+app.use(express.json({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/api/auth', auth);
 app.use('/api/users', users);
 

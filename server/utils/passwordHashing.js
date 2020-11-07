@@ -24,7 +24,7 @@ module.exports = {
             hashed = md5(hashed);
         }
         return {
-            salt: salt,
+            salt: salt.toString(),
             password: `${salt}$${rounds}$${hashed}`,
         };
     },

@@ -18,6 +18,25 @@
       "password": "9e4d16b6e67aa3a9b2fbb6a488bf32fb53bc34a7",
       "phone": "+1 (936) 451-3590",
       "address": "121 National Drive, Cotopaxi, Michigan, 8240"
+    },
+    {
+      "_id": "d8gr0h1nzvkh8a8ebz",
+      "guid": "65d9a658-0db4-4684-8217-6f16bcb5c640",
+      "isActive": true,
+      "balance": "$0.00",
+      "picture": "http://placehold.it/32x32",
+      "address": "",
+      "age": "",
+      "company": "",
+      "eyeColor": "",
+      "email": "alejandrolazo93@gmail.com",
+      "name": {
+        "first": "Alejandro",
+        "last": "Lazo"
+      },
+      "phone": "",
+      "password": "1604789499021$10$3be28e1427b8953dd4f8823fb8c4c697",
+      "salt": "1604789499021"
     }
   ]
 }

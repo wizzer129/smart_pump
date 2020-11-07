@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const dbClient = require('../config/dbClient');
 const { db } = require('../config/database');
 const { hash, compare } = require('../utils/passwordHashing');
+const { v4: uuidv4 } = require('uuid');
+const uniqid = require('uniqid');
 
 module.exports = {
     /**
@@ -10,7 +12,9 @@ module.exports = {
      * @returns success
      */
     registerUser: async (req, res) => {
-        if ((await dbClient.getUsers(db, { email: req.body.email }).length) > 0) {
+        const userExists = await dbClient.getUsers(db(), { email: req.body.email });
+        if (userExists.length > 0) {
+            console.log();
             return res.status(400).json({
                 success: false,
                 error: 'Email is already taken',
@@ -20,12 +24,13 @@ module.exports = {
         const password = hash(req.body.password, { salt: req.body.salt });
         try {
             const newUser = {
+                _id: uniqid(),
                 guid: uuidv4(),
                 isActive: true,
                 balance: '$0.00',
                 picture: 'http://placehold.it/32x32',
                 address: req.body.address ? req.body.address : '',
-                age: req.body.age ? req.body.age : '',
+                age: req.body.age ? req.body.age : 0,
                 company: req.body.company ? req.body.company : '',
                 eyeColor: req.body.eyeColor ? req.body.eyeColor : '',
                 email: req.body.email,
@@ -37,9 +42,10 @@ module.exports = {
                 password: password.password,
                 salt: password.salt,
             };
-            const user = await dbClient.addUser(db, newUser);
+            const user = await dbClient.addUser(db(), newUser);
             return res.json({ success: true, data: user });
         } catch (err) {
+            console.error(err);
             return res.status(500).json({
                 success: false,
                 error: 'Server Error',
