@@ -1,0 +1,23 @@
+{
+    "name": "sp_server",
+    "version": "1.0.0",
+    "description": "Server for SMART Pump profile application",
+    "main": "server.js",
+    "scripts": {
+        "client-install": "npm install && cd ../client && npm install",
+        "dev": "concurrently \"npm run server-dev\" \"npm run client\"",
+        "server-dev": "NODE_ENV=dev nodemon server.js"
+    },
+    "author": "Alejandro Lazo",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1",
+        "express-validator": "^6.6.1",
+        "jsonwebtoken": "^8.5.1",
+        "lowdb": "^1.0.0",
+        "uuid": "^8.3.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.6"
+    }
+}
