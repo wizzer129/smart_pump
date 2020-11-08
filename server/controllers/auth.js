@@ -81,7 +81,7 @@ module.exports = {
                 const payload = user[0];
                 //console.log(payload, req.body.password);
                 if (compare(req.body.password, payload.password)) {
-                    jwt.sign(payload, 'SECRETORKEY', (err, token) => {
+                    jwt.sign(payload, process.env.SECRET_OR_KEY, (err, token) => {
                         return res.json({
                             user: payload,
                             token,
