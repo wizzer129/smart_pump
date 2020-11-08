@@ -8,7 +8,7 @@ module.exports = {
      * @param { object } [options={}] - object containing salt and rounds
      * @returns {string}
      */
-    hash(rawPassword, options = {}) {
+    hash: (rawPassword, options = {}) => {
         /**
          * salt is optional, if not provided it will be set to current timestamp
          */
@@ -34,12 +34,14 @@ module.exports = {
      * @param { string } hashedPassword - the hashed password
      * @returns
      */
-    compare(rawPassword, hashedPassword) {
+    compare: (rawPassword, hashedPassword) => {
         try {
             const [salt, rounds] = hashedPassword.split('$');
-            const hashedRawPassword = this.hash(rawPassword, { salt, rounds });
-            return hashedPassword === hashedRawPassword;
+            const hashedRawPassword = module.exports.hash(rawPassword, { salt, rounds });
+
+            return hashedPassword === hashedRawPassword.password;
         } catch (error) {
+            console.error(error);
             throw Error(error.message);
         }
     },

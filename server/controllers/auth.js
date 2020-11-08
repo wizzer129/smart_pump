@@ -14,7 +14,6 @@ module.exports = {
     registerUser: async (req, res) => {
         const userExists = await dbClient.getUsers(db(), { email: req.body.email });
         if (userExists.length > 0) {
-            console.log();
             return res.status(400).json({
                 success: false,
                 error: 'Email is already taken',
@@ -61,7 +60,7 @@ module.exports = {
      */
     getAuthUser: async (req, res) => {
         try {
-            const user = await dbClient.getUsers(db, { _id: req.user._id });
+            const user = await dbClient.getUsers(db(), { _id: req.user._id });
             if (user.length === 0) {
                 res.status(404).json({
                     error: 'User not found',
@@ -76,74 +75,33 @@ module.exports = {
 
     loginUser: async (req, res) => {
         try {
-            const user = await db.find({ _id: req.user._id });
-            res.json(user);
+            const user = await dbClient.getUsers(db(), { email: req.body.email });
+            if (user.length === 1) {
+                //console.log(payload);
+                const payload = user[0];
+                //console.log(payload, req.body.password);
+                if (compare(req.body.password, payload.password)) {
+                    jwt.sign(payload, 'SECRETORKEY', (err, token) => {
+                        return res.json({
+                            user: payload,
+                            token,
+                        });
+                    });
+                } else {
+                    return res.status(401).json({
+                        error: 'invalid password',
+                    });
+                }
+            } else {
+                return res.status(404).json({
+                    error: 'Email is not tied to an account',
+                });
+            }
         } catch (errors) {
-            console.error(errors.message);
-            res.status(500).send('Server Error');
+            console.error(errors);
+            return res.status(500).json({
+                error: 'Server Error',
+            });
         }
     },
 };
-
-/** 
-exports.loginUser = async (req, res, next) => {
-    try {
-        let payload = {};
-        if (req.user) {
-            let user = await User.findOne({ guid: req.user.guid }).exec();
-            try {
-                payload.permissionGroup = findPermissionGroup(ldapGroup.groups);
-            } catch (error) {
-                res.status(500).json({ msg: 'issue getting user groups', errors });
-            }
-            // check if user exists
-            
-            // create jsonwebtoken
-            jwt.sign(payload, process.env.SECRET_OR_KEY, (err, token) => {
-                return res.json({
-                    success: true,
-                    token,
-                    user,
-                    payload,
-                });
-            });
-        } else {
-            return res.status(500).json({
-                errors: 'Server Error: Could not find user groups or profile in AD for user',
-                msg: req.user,
-            });if (user) {
-                // if exists, update user profile
-                payload._id = user._id;
-                payload.username = ldapUser.sAMAccountName;
-                payload.fullName = ldapUser.displayName;
-                payload.email = ldapUser.mail ? ldapUser.mail : '';
-                payload.objectGUID = ldapUser.objectGUID;
-                payload.title = ldapUser.title ? ldapUser.title : '';
-                user.username = ldapUser.sAMAccountName;
-                user.fullName = ldapUser.displayName;
-                user.email = ldapUser.mail ? ldapUser.mail : '';
-                user.permissionGroup = payload.permissionGroup;
-                user.title = ldapUser.title ? ldapUser.title : '';
-                user.updatedAt = new Date();
-                await user.save();
-            } else {
-                // if does not exists, create user profile
-                const newUserConfig = {
-                    username: ldapUser.sAMAccountName,
-                    fullName: ldapUser.displayName,
-                    permissionGroup: payload.permissionGroup,
-                    email: ldapUser.mail ? ldapUser.mail : '',
-                    title: ldapUser.title ? ldapUser.title : '',
-                    objectGUID: ldapUser.objectGUID,
-                };
-
-                user = await User.create(newUserConfig);
-                payload = { ...payload, ...newUserConfig, _id: user._id };
-            }
-        }
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ err });
-    }
-};
-*/
