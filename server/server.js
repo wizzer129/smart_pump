@@ -1,4 +1,9 @@
 const express = require('express');
+const dotenv = require('dotenv');
+
+// load environment variables
+const envFile = '.env.secrets';
+dotenv.config({ path: `./config/${envFile}` });
 
 const app = express();
 
