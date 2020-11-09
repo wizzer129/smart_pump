@@ -4,6 +4,7 @@
     "description": "Server for SMART Pump profile application",
     "main": "server.js",
     "scripts": {
+        "client": "cd ../client && npm start",
         "client-install": "npm install && cd ../client && npm install",
         "dev": "concurrently \"npm run server-dev\" \"npm run client\"",
         "server-dev": "NODE_ENV=dev nodemon server.js"
