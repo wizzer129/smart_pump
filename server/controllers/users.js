@@ -50,8 +50,10 @@ module.exports = {
     updateUser: async (req, res) => {
         try {
             // only user editable fields
+            let oldUserData = await dbClient.getUsers(db(), { _id: req.user._id });
+            oldUserData = oldUserData[0];
             let email = req.user.email;
-            if (req.body.email !== req.user.email) {
+            if (req.body.email !== oldUserData.email) {
                 // check to see if there is an account with new email.
                 const users = await dbClient.getUsers(db(), { email: req.body.email });
                 if (users.length !== 0) {
@@ -63,8 +65,7 @@ module.exports = {
                 email = req.body.email;
                 //console.log('check to see if new email already exists');
             }
-            let oldUserData = await dbClient.getUsers(db(), { _id: req.user._id });
-            oldUserData = oldUserData[0];
+
             const updatedUserData = {
                 ...oldUserData,
                 age: req.body.age,
