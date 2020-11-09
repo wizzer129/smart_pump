@@ -81,12 +81,18 @@ module.exports = {
                 const payload = user[0];
                 //console.log(payload, req.body.password);
                 if (compare(req.body.password, payload.password)) {
-                    jwt.sign(payload, process.env.SECRET_OR_KEY, (err, token) => {
-                        return res.json({
-                            user: payload,
-                            token,
-                        });
-                    });
+                    jwt.sign(
+                        payload,
+                        process.env.SECRET_OR_KEY,
+                        { expiresIn: process.env.JWT_EXPIRES_IN },
+                        (err, token) => {
+                            console.log(err, token);
+                            return res.json({
+                                user: payload,
+                                token,
+                            });
+                        }
+                    );
                 } else {
                     return res.status(401).json({
                         error: 'invalid password',

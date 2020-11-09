@@ -1,6 +1,6 @@
 const dbClient = require('../config/dbClient');
 const { db } = require('../config/database');
-
+const jwt = require('jsonwebtoken');
 module.exports = {
     /**
      * @route GET /api/users/:id
@@ -45,15 +45,48 @@ module.exports = {
      * @route POST /api/users
      * @param {*} req
      * @param {*} res
+     * @desc allows user to edit their own profile
      */
     updateUser: async (req, res) => {
         try {
-            const user = await db
-                .get('users')
-                .push({ ...req.body })
-                .write();
-            return res.json({ success: true, data: user });
+            // only user editable fields
+            let email = req.user.email;
+            if (req.body.email !== req.user.email) {
+                // check to see if there is an account with new email.
+                const users = await dbClient.getUsers(db(), { email: req.body.email });
+                if (users.length !== 0) {
+                    return res.status(400).json({
+                        error: 'Email is already taken.',
+                        success: false,
+                    });
+                }
+                email = req.body.email;
+                //console.log('check to see if new email already exists');
+            }
+            let oldUserData = await dbClient.getUsers(db(), { _id: req.user._id });
+            oldUserData = oldUserData[0];
+            const updatedUserData = {
+                ...oldUserData,
+                age: req.body.age,
+                address: req.body.address,
+                company: req.body.company,
+                email,
+                eyeColor: req.body.eyeColor,
+                name: {
+                    first: req.body.first ? req.body.first : req.user.name.first,
+                    last: req.body.last ? req.body.last : req.user.name.last,
+                },
+                phone: req.body.phone,
+            };
+            const payload = await dbClient.updateUser(db(), updatedUserData);
+
+            // update auth token with new user data
+            return res.json({
+                success: true,
+                data: payload,
+            });
         } catch (err) {
+            console.error(err);
             return res.status(500).json({
                 success: false,
                 error: 'Server Error',

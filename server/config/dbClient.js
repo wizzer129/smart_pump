@@ -4,7 +4,7 @@ module.exports = {
         return res;
     },
 
-    getUsers: async (db, filter, numberToGet) => {
+    getUsers: async (db, filter, numberToGet = 10) => {
         return await db.get('users').filter(filter).sortBy({ name: 'first' }).take(numberToGet).value();
     },
 
@@ -13,7 +13,10 @@ module.exports = {
     },
 
     updateUser: async (db, user) => {
-        db.get('users').find({ _id: user._id }) = user;
-        return await db.save();
+        db.get('users').find({ _id: user._id }).assign(user).value();
+        db.write();
+        const res = db.get('users').find({ _id: user._id }).value();
+
+        return res;
     },
 };

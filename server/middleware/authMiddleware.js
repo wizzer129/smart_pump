@@ -13,7 +13,7 @@ module.exports = async function (req, res, next) {
     try {
         await jwt.verify(token, process.env.SECRET_OR_KEY, (error, decoded) => {
             if (error) {
-                res.status(401).json({
+                return res.status(401).json({
                     success: false,
                     errors: [{ msg: 'Token is not valid', error, val: token, param: 'token' }],
                 });
@@ -23,7 +23,7 @@ module.exports = async function (req, res, next) {
             }
         });
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             errors: [{ msg: 'Auth Server Error', error: err, param: 'auth middleware' }],
         });
