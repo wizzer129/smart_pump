@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, USER_LOADED, USER_LOADING } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
-export const login = (username, password) => async (dispatch) => {
+export const login = (user) => async (dispatch) => {
     dispatch({ type: USER_LOADING });
     const config = {
         headers: {
@@ -11,7 +11,7 @@ export const login = (username, password) => async (dispatch) => {
         },
     };
 
-    const body = JSON.stringify({ username, password });
+    const body = JSON.stringify(user);
 
     try {
         const res = await axios.post('/api/auth', body, config);
@@ -21,13 +21,7 @@ export const login = (username, password) => async (dispatch) => {
         });
         dispatch(loadUser());
     } catch (err) {
-        const errors = err.response.data.errors.map((err) => {
-            return err.msg;
-        });
-
-        if (errors) {
-            console.log('Failed to Login', errors, 'error');
-        }
+        console.log(err);
 
         dispatch({
             type: LOGIN_FAIL,
@@ -47,11 +41,18 @@ export const loadUser = () => async (dispatch) => {
             payload: res.data,
         });
     } catch (err) {
-        //console.log(err);
-        dispatch({
-            type: AUTH_ERROR,
-        });
+        console.log(err);
     }
+};
+
+export const registerUser = (newUser) => async (dispatch) => {
+    try {
+        const res = await axios.post('/api/auth', newUser);
+        dispatch({
+            type: USER_LOADED,
+            payload: res.data,
+        });
+    } catch (error) {}
 };
 
 export const logout = () => (dispatch) => {

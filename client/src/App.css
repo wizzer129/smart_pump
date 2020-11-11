@@ -22,3 +22,9 @@
     border-radius: 50%;
     background: #fff;
 }
+
+html,
+body,
+#root {
+    height: 100%;
+}
