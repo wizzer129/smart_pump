@@ -15,9 +15,7 @@ const Routes = (props) => {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <React.Fragment>
-                    <div className="content-page">
-                        <PrivateRoute exact path="/" component={Profile} />
-                    </div>
+                    <PrivateRoute exact path="/profile" component={Profile} />
                 </React.Fragment>
             </Switch>
         </Router>

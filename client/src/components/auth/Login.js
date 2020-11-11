@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 //actions
 import { login } from '../../actions/auth';
 
@@ -11,6 +11,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
+import FormInput from '../inputs/FormInput';
 import Row from 'react-bootstrap/Row';
 
 import './Login.css';
@@ -30,6 +31,11 @@ const LoginForm = ({ auth, login }) => {
         updateFormFields({ ...formFields, [target.type]: target.value });
     };
 
+    if (auth.isAuthenticated) {
+        //removeAlert();
+        return <Redirect to="/profile" />;
+    }
+
     return (
         <Container className="h-100">
             <Row className="h-100 align-items-center">
@@ -38,14 +44,18 @@ const LoginForm = ({ auth, login }) => {
                         <Card.Title className="text-center">Login</Card.Title>
                         <Card.Body>
                             <Form className="form-login">
-                                <Form.Group>
-                                    <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" onChange={onChange} value={formFields.email} />
-                                </Form.Group>
-                                <Form.Group controlId="formBasicPassword">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password" onChange={onChange} value={formFields.password} />
-                                </Form.Group>
+                                <FormInput
+                                    label="Email address"
+                                    type="email"
+                                    onChange={onChange}
+                                    value={formFields.email}
+                                />
+                                <FormInput
+                                    label="Password"
+                                    type="password"
+                                    onChange={onChange}
+                                    value={formFields.password}
+                                />
                                 <Button fluid="true" onClick={onSubmit} block>
                                     Login
                                 </Button>

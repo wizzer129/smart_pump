@@ -5,23 +5,15 @@ import setAuthToken from '../utils/setAuthToken';
 
 export const login = (user) => async (dispatch) => {
     dispatch({ type: USER_LOADING });
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-
-    const body = JSON.stringify(user);
-
     try {
-        const res = await axios.post('/api/auth', body, config);
+        const res = await axios.post('/api/auth', user);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data,
         });
         dispatch(loadUser());
     } catch (err) {
-        console.log(err);
+        console.error(err);
 
         dispatch({
             type: LOGIN_FAIL,
@@ -42,6 +34,7 @@ export const loadUser = () => async (dispatch) => {
         });
     } catch (err) {
         console.log(err);
+        dispatch(logout);
     }
 };
 
