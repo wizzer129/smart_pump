@@ -1,11 +1,25 @@
+import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import store from './store';
+
+import { loadUser } from './actions/auth';
+import setAuthToken from './utils/setAuthToken';
+
+import Routes from './components/routing/Routes';
+
 import './App.css';
 
-function App() {
+const App = () => {
+    useEffect(() => {
+        setAuthToken(localStorage.token);
+        store.dispatch(loadUser());
+    }, []);
+
     return (
-        <div className="App">
-            <header className="App-header"></header>
-        </div>
+        <Provider store={store}>
+            <Routes />
+        </Provider>
     );
-}
+};
 
 export default App;
