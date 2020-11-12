@@ -66,8 +66,8 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
         <Container className="h-100">
             <Row className="h-100 align-items-center">
                 <Col sm="12" md="10" lg="8" className="mx-auto">
-                    <Card className="card-login align-middle">
-                        <Card.Title className="text-center">Register</Card.Title>
+                    <Card className="card-register align-middle">
+                        <Card.Title className="text-center register-title">Register</Card.Title>
                         <Card.Body>
                             <Form className="form-login needs-validation">
                                 <Form.Row>

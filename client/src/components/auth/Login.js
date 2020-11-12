@@ -37,14 +37,15 @@ const LoginForm = ({ auth, errors, login }) => {
     }
 
     return (
-        <Container className="h-100">
+        <Container className="h-100 fadeInDown">
             <Row className="h-100 align-items-center">
                 <Col sm="9" md="7" lg="5" className="mx-auto">
                     <Card className="card-login align-middle">
-                        <Card.Title className="text-center">Login</Card.Title>
+                        <Card.Title className="text-center fadeIn first">Login</Card.Title>
                         <Card.Body>
-                            <Form className="form-login">
+                            <Form className="form-login fadeIn second">
                                 <FormInput
+                                    className="fadeIn third"
                                     label="Email Address"
                                     type="email"
                                     name="email"
@@ -57,6 +58,7 @@ const LoginForm = ({ auth, errors, login }) => {
                                     label="Password"
                                     type="password"
                                     name="password"
+                                    className="fadeIn third"
                                     onChange={onChange}
                                     value={formFields.password}
                                     isInvalid={errors && errors.password}
