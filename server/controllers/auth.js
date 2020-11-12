@@ -79,7 +79,6 @@ module.exports = {
             if (user.length === 1) {
                 //console.log(payload);
                 const payload = user[0];
-                //console.log(payload, req.body.password);
                 if (compare(req.body.password, payload.password)) {
                     jwt.sign(
                         payload,
@@ -95,12 +94,12 @@ module.exports = {
                     );
                 } else {
                     return res.status(401).json({
-                        error: 'invalid password',
+                        error: { password: 'Invalid password' },
                     });
                 }
             } else {
                 return res.status(404).json({
-                    error: 'Email is not tied to an account',
+                    error: { email: 'Invalid email' },
                 });
             }
         } catch (errors) {
