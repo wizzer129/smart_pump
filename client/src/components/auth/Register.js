@@ -63,16 +63,17 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
     };
 
     return (
-        <Container className="h-100">
+        <Container className="h-100 fadeInDown">
             <Row className="h-100 align-items-center">
                 <Col sm="12" md="10" lg="8" className="mx-auto">
                     <Card className="card-register align-middle">
                         <Card.Title className="text-center register-title">Register</Card.Title>
                         <Card.Body>
-                            <Form className="form-login needs-validation">
+                            <Form className="form-login needs-validation fadeIn first">
                                 <Form.Row>
                                     <Col>
                                         <FormInputOverlay
+                                            className="fadeIn second"
                                             label="Email Address"
                                             type="email"
                                             name="email"
@@ -87,6 +88,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                 <Form.Row>
                                     <Col sm>
                                         <FormInputOverlay
+                                            className="fadeIn third"
                                             label="First Name"
                                             type="first"
                                             name="first"
@@ -99,6 +101,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                     </Col>
                                     <Col sm>
                                         <FormInput
+                                            className="fadeIn third"
                                             label="Last Name"
                                             type="last"
                                             name="last"
@@ -110,6 +113,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                 <Form.Row>
                                     <Col sm>
                                         <FormInput
+                                            className="fadeIn third"
                                             label="Company"
                                             type="company"
                                             name="company"
@@ -119,6 +123,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                     </Col>
                                     <Col sm>
                                         <FormInput
+                                            className="fadeIn third"
                                             label="Eye Color"
                                             name="eyeColor"
                                             onChange={onChange}
@@ -129,6 +134,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                 <Form.Row>
                                     <Col>
                                         <FormInput
+                                            className="fadeIn third"
                                             label="Address"
                                             type="address"
                                             name="address"
@@ -141,6 +147,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                 <Form.Row>
                                     <Col sm>
                                         <FormInputOverlay
+                                            className="fadeIn fourth"
                                             label="Password"
                                             type="password"
                                             name="password"
@@ -153,6 +160,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                     </Col>
                                     <Col sm>
                                         <FormInputOverlay
+                                            className="fadeIn fourth"
                                             label="Confirm Password"
                                             name="password2"
                                             type="password"
