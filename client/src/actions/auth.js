@@ -18,6 +18,8 @@ export const login = (user) => async (dispatch) => {
         dispatch({
             type: LOGIN_FAIL,
         });
+    } finally {
+        dispatch({ type: USER_LOADING });
     }
 };
 

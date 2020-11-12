@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 //actions
 import { registerUser } from '../../actions/auth';
+import { setErrors } from '../../actions/errors';
 
 // ui
 import Button from 'react-bootstrap/Button';
@@ -13,11 +14,12 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import FormInput from '../inputs/FormInput';
 import Row from 'react-bootstrap/Row';
+import FormInputOverlay from '../inputs/FormInputOverlay';
 
 import './Login.css';
 import './Register.css';
 
-const RegisterForm = ({ registerUser }) => {
+const RegisterForm = ({ errors, registerUser, setErrors }) => {
     const [formFields, updateFormFields] = useState({
         address: '',
         company: '',
@@ -31,13 +33,33 @@ const RegisterForm = ({ registerUser }) => {
     });
 
     const onSubmit = () => {
-        if (formFields.password === formFields.password2) {
+        const { email, first, password, password2 } = formFields;
+        let errors = {};
+        if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+            errors.email = 'Invalid email';
+        }
+
+        if (first === '') {
+            errors.first = 'Enter a valid first name';
+        }
+
+        if (password !== password2) {
+            errors.password = 'Passwords do not match';
+        }
+
+        if (password.length < 6) {
+            errors.password = 'Password is too short';
+        }
+
+        if (errors.length === 0) {
             registerUser(formFields);
+        } else {
+            setErrors(errors);
         }
     };
 
     const onChange = ({ target }) => {
-        updateFormFields({ ...formFields, [target.type]: target.value });
+        updateFormFields({ ...formFields, [target.name]: target.value });
     };
 
     return (
@@ -47,30 +69,39 @@ const RegisterForm = ({ registerUser }) => {
                     <Card className="card-login align-middle">
                         <Card.Title className="text-center">Register</Card.Title>
                         <Card.Body>
-                            <Form className="form-login">
+                            <Form className="form-login needs-validation">
                                 <Form.Row>
                                     <Col>
-                                        <FormInput
+                                        <FormInputOverlay
                                             label="Email Address"
                                             type="email"
+                                            name="email"
                                             onChange={onChange}
                                             value={formFields.email}
+                                            isInvalid={errors && errors.email}
+                                            placement={'left'}
+                                            toolTip={errors && errors.email}
                                         />
                                     </Col>
                                 </Form.Row>
                                 <Form.Row>
                                     <Col sm>
-                                        <FormInput
+                                        <FormInputOverlay
                                             label="First Name"
-                                            type="fist"
+                                            type="first"
+                                            name="first"
                                             onChange={onChange}
                                             value={formFields.first}
+                                            isInvalid={errors && errors.first}
+                                            placement={'left'}
+                                            toolTip={errors && errors.first}
                                         />
                                     </Col>
                                     <Col sm>
                                         <FormInput
                                             label="Last Name"
                                             type="last"
+                                            name="last"
                                             onChange={onChange}
                                             value={formFields.last}
                                         />
@@ -81,6 +112,7 @@ const RegisterForm = ({ registerUser }) => {
                                         <FormInput
                                             label="Company"
                                             type="company"
+                                            name="company"
                                             onChange={onChange}
                                             value={formFields.company}
                                         />
@@ -88,7 +120,7 @@ const RegisterForm = ({ registerUser }) => {
                                     <Col sm>
                                         <FormInput
                                             label="Eye Color"
-                                            type="eyeColor"
+                                            name="eyeColor"
                                             onChange={onChange}
                                             value={formFields.eyeColor}
                                         />
@@ -99,26 +131,36 @@ const RegisterForm = ({ registerUser }) => {
                                         <FormInput
                                             label="Address"
                                             type="address"
+                                            name="address"
                                             onChange={onChange}
                                             value={formFields.address}
                                         />
                                     </Col>
                                 </Form.Row>
-                                <Form.Row controlId="formBasicPassword">
+
+                                <Form.Row>
                                     <Col sm>
-                                        <FormInput
+                                        <FormInputOverlay
                                             label="Password"
                                             type="password"
+                                            name="password"
                                             onChange={onChange}
                                             value={formFields.password}
+                                            isInvalid={errors && errors.password}
+                                            placement={'left'}
+                                            toolTip={errors && errors.password}
                                         />
                                     </Col>
                                     <Col sm>
-                                        <FormInput
+                                        <FormInputOverlay
                                             label="Confirm Password"
-                                            type="password2"
+                                            name="password2"
+                                            type="password"
                                             onChange={onChange}
                                             value={formFields.password2}
+                                            isInvalid={errors && errors.password2}
+                                            placement={'right'}
+                                            toolTip={errors && errors.password2}
                                         />
                                     </Col>
                                 </Form.Row>
@@ -136,6 +178,11 @@ const RegisterForm = ({ registerUser }) => {
 
 RegisterForm.propTypes = {
     registerUser: PropTypes.func.isRequired,
+    setErrors: PropTypes.func.isRequired,
 };
 
-export default connect(null, { registerUser })(RegisterForm);
+const mapStateToProps = (state) => ({
+    errors: state.errors,
+});
+
+export default connect(mapStateToProps, { registerUser, setErrors })(RegisterForm);

@@ -16,7 +16,7 @@ import Row from 'react-bootstrap/Row';
 
 import './Login.css';
 
-const LoginForm = ({ auth, login }) => {
+const LoginForm = ({ auth, errors, login }) => {
     const [formFields, updateFormFields] = useState({
         email: '',
         password: '',
@@ -45,16 +45,21 @@ const LoginForm = ({ auth, login }) => {
                         <Card.Body>
                             <Form className="form-login">
                                 <FormInput
-                                    label="Email address"
+                                    label="Email Address"
                                     type="email"
+                                    name="email"
                                     onChange={onChange}
                                     value={formFields.email}
+                                    isInvalid={errors && errors.email}
                                 />
+
                                 <FormInput
                                     label="Password"
                                     type="password"
+                                    name="password"
                                     onChange={onChange}
                                     value={formFields.password}
+                                    isInvalid={errors && errors.password}
                                 />
                                 <Button fluid="true" onClick={onSubmit} block>
                                     Login
@@ -73,6 +78,7 @@ const LoginForm = ({ auth, login }) => {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
+    errors: state.errors,
 });
 
 LoginForm.propTypes = {
