@@ -37,9 +37,7 @@ module.exports = {
     compare: (rawPassword, hashedPassword) => {
         try {
             const [salt, rounds] = hashedPassword.split('$');
-            console.log(rawPassword);
             const hashedRawPassword = module.exports.hash(rawPassword, { salt, rounds });
-            console.log(hashedPassword, hashedRawPassword.password);
             return hashedPassword === hashedRawPassword.password;
         } catch (error) {
             console.error(error);

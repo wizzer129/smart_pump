@@ -1,0 +1,31 @@
+.navbar-brand {
+    float: none;
+    margin-right: 0 !important;
+    margin-left: 1.5rem;
+}
+
+.navbar-header {
+    float: left;
+
+    text-align: center;
+    margin: auto;
+    width: 90%;
+}
+
+@media screen and (max-width: 1600px) {
+    .navbar-header {
+        width: 80%;
+        float: left;
+        text-align: center;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .navbar-header {
+        width: 70%;
+        float: left;
+        text-align: center;
+        margin: auto;
+    }
+}
