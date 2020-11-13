@@ -5,6 +5,7 @@ import Login from '../auth/Login';
 import Navigation from '../navbar/Navbar';
 import Register from '../auth/Register';
 import Profile from '../profile/Profile';
+import EditProfile from '../profile/EditProfile';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -19,6 +20,7 @@ const Routes = (props) => {
 
                 <React.Fragment>
                     <PrivateRoute exact path={['/', '/profile']} component={Profile} />
+                    <PrivateRoute exact path="/profile/edit" component={EditProfile} />
                 </React.Fragment>
             </Switch>
         </Router>

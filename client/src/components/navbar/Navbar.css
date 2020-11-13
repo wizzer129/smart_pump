@@ -6,7 +6,7 @@
 .navbar-brand {
     float: none;
     margin-right: 0 !important;
-    margin-left: 10rem;
+    margin-left: 13rem;
 }
 
 .navbar-header {
@@ -14,7 +14,7 @@
 
     text-align: center;
     margin: auto;
-    width: 90%;
+    width: 87%;
 }
 
 @media screen and (max-width: 1600px) {

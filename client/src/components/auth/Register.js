@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -13,13 +13,19 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import FormInput from '../inputs/FormInput';
-import Row from 'react-bootstrap/Row';
 import FormInputOverlay from '../inputs/FormInputOverlay';
+import Row from 'react-bootstrap/Row';
 
 import './Login.css';
 import './Register.css';
 
 const RegisterForm = ({ errors, registerUser, setErrors }) => {
+    useEffect(() => {
+        return () => {
+            setErrors(null);
+        };
+    }, []);
+
     const [formFields, updateFormFields] = useState({
         address: '',
         company: '',
@@ -79,7 +85,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                             name="email"
                                             onChange={onChange}
                                             value={formFields.email}
-                                            isInvalid={errors && errors.email}
+                                            isInvalid={errors && errors.email ? true : false}
                                             placement={'left'}
                                             toolTip={errors && errors.email}
                                         />
@@ -94,7 +100,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                             name="first"
                                             onChange={onChange}
                                             value={formFields.first}
-                                            isInvalid={errors && errors.first}
+                                            isInvalid={errors && errors.first ? true : false}
                                             placement={'left'}
                                             toolTip={errors && errors.first}
                                         />
@@ -153,7 +159,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                             name="password"
                                             onChange={onChange}
                                             value={formFields.password}
-                                            isInvalid={errors && errors.password}
+                                            isInvalid={errors && errors.password ? true : false}
                                             placement={'left'}
                                             toolTip={errors && errors.password}
                                         />
@@ -166,7 +172,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                             type="password"
                                             onChange={onChange}
                                             value={formFields.password2}
-                                            isInvalid={errors && errors.password2}
+                                            isInvalid={errors && errors.password2 ? true : false}
                                             placement={'right'}
                                             toolTip={errors && errors.password2}
                                         />

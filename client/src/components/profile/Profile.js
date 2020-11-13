@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import FormInput from '../inputs/FormInput';
+
 import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import UserProfileMedia from '../media/UserProfileMedia';

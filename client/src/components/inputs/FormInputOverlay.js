@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 const FormInputOverlay = (props) => {
     const { toolTip, placement, type, label, name, placeholder, value, onChange, isInvalid, isValid, ...rest } = props;
+
     return (
         <Form.Group>
             <Form.Label>{label}</Form.Label>
