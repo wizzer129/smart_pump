@@ -6,11 +6,14 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
+import UserProfileMedia from '../media/UserProfileMedia';
 
 import './Profile.css';
 
 const Profile = ({ user }) => {
+    const { name, company, ...rest } = user;
     return (
         <Container className="profile-container">
             <Row className="align-items-center justify-content-center">
@@ -39,36 +42,37 @@ const Profile = ({ user }) => {
                                 <Row>
                                     <Col sm={12}>
                                         <div className="profile-title">
-                                            <h5 className="my-1 text-black">{`${user.name.first} ${user.name.last}`}</h5>
+                                            <h5 className="my-1 text-black">
+                                                {name ? `${name.first} ${name.last}` : null}
+                                            </h5>
                                         </div>
 
                                         <div className="profile-subtitle">
-                                            <div className="text-muted subtitle">{user.email}</div>
-                                            <div className="text-muted subtitle">{user.company}</div>
+                                            <div className="text-muted subtitle">{company}</div>
                                         </div>
                                         <Row className="justify-content-center profile-btn-row">
-                                            <Col sm={4}>
-                                                <Button className="btn-secondary" block>
+                                            <Col sm={5}>
+                                                <Button className="btn-secondary profile-btn" block>
                                                     Balance
                                                 </Button>
                                             </Col>
-                                            <Col sm={4}>
-                                                <Button className="btn-secondary" block>
+                                            <Col sm={5}>
+                                                <Button
+                                                    as={Link}
+                                                    to="/profile/edit"
+                                                    className="btn-secondary profile-btn"
+                                                    block
+                                                >
                                                     Edit
                                                 </Button>
                                             </Col>
                                         </Row>
-                                        <Row className="justify-content-center">
-                                            <Col>
-                                                <div className="profile-desc">
-                                                    <p className="text-muted">
-                                                        Lifestyle coach and photographer <br />
-                                                        delivering best images only...
-                                                    </p>
-                                                </div>
-                                            </Col>
-                                        </Row>
                                     </Col>
+                                </Row>
+                            </div>
+                            <div className="profile-middle">
+                                <Row className="justify-content-center">
+                                    <Col sm={10}>{user !== null ? <UserProfileMedia user={rest} /> : null}</Col>
                                 </Row>
                             </div>
                         </Card.Body>

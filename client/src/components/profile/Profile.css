@@ -32,6 +32,12 @@
     margin-bottom: 2rem;
 }
 
+@media screen and (max-width: 575px) {
+    .profile-btn {
+        margin-bottom: 1rem;
+    }
+}
+
 .text-black {
     color: #555555 !important;
 }

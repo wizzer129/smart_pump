@@ -1,9 +1,22 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import './Navbar.css';
 import logo from '../../img/logo2.png';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
+const getPathname = () => {
+    return new useLocation().pathname;
+};
+
+const NavLink = ({ path, title }) => {
+    return (
+        <Nav.Link as={Link} to={path} active={getPathname() === path}>
+            {title}
+        </Nav.Link>
+    );
+};
 
 const Navigation = () => {
     return (
@@ -16,9 +29,9 @@ const Navigation = () => {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="/profile">Profile</Nav.Link>
-                    <Nav.Link href="/profile/edit">Edit Profile</Nav.Link>
-                    <Nav.Link href="/logout">Logout</Nav.Link>
+                    <NavLink path={'/profile'} title="Profile" />
+                    <NavLink path={'/profile/edit'} title="Edit Profile" />
+                    <NavLink path={'/logout'} title="Logout" />
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
