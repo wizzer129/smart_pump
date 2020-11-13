@@ -69,7 +69,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
     };
 
     return (
-        <Container className="h-100 fadeInDown">
+        <Container className="h-100 fadeIn first">
             <Row className="h-100 align-items-center">
                 <Col sm="12" md="10" lg="8" className="mx-auto">
                     <Card className="card-register align-middle">

@@ -1,6 +1,15 @@
 import axios from 'axios';
 
-import { AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, USER_LOADED, USER_LOADING, UPDATE_USER_PROFILE } from './types';
+import {
+    AUTH_ERROR,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT,
+    USER_LOADED,
+    USER_LOADING,
+    UPDATE_USER_PROFILE,
+    UPDATING_PROFILE,
+} from './types';
 import { setErrors } from './errors';
 import setAuthToken from '../utils/setAuthToken';
 
@@ -15,7 +24,6 @@ export const login = (user) => async (dispatch) => {
         dispatch(loadUser());
     } catch (err) {
         console.error(err);
-        dispatch(setErrors({ email: 'Invalid username or password' }));
         dispatch({
             type: LOGIN_FAIL,
         });
@@ -65,7 +73,7 @@ export const resetUserPassword = (passwords) => async (dispatch) => {
 export const updateUser = (user) => async (dispatch) => {
     try {
         dispatch({ type: UPDATING_PROFILE, payload: true });
-        const res = await axios.post('/api/users', passwords);
+        const res = await axios.post('/api/users', user);
         console.log(res.data);
         dispatch({ type: UPDATE_USER_PROFILE, payload: res.data });
     } catch (error) {

@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { setErrors } from '../../actions/errors';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -14,7 +15,7 @@ import UserProfileMedia from '../media/UserProfileMedia';
 
 import './Profile.css';
 
-const Profile = ({ user }) => {
+const Profile = ({ user, setErrors }) => {
     useEffect(() => {
         return () => {
             setErrors(null);
@@ -94,4 +95,4 @@ const mapStateToProps = (state) => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, {})(Profile);
+export default connect(mapStateToProps, { setErrors })(Profile);

@@ -1,12 +1,12 @@
 const express = require('express');
 const dotenv = require('dotenv');
-
+const cors = require('cors');
 // load environment variables
 const envFile = '.env.secrets';
 dotenv.config({ path: `./config/${envFile}` });
 
 const app = express();
-
+app.use(cors());
 // REST api integration
 const auth = require('./routes/auth');
 const users = require('./routes/users');
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', auth);
 app.use('/api/users', users);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
