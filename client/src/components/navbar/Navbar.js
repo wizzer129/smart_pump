@@ -16,8 +16,8 @@ const Navigation = () => {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="#deets">Profile</Nav.Link>
-                    <Nav.Link eventKey={2} href="#memes">
+                    <Nav.Link href="/profile">Profile</Nav.Link>
+                    <Nav.Link eventKey={2} href="/profile/edit">
                         Edit Profile
                     </Nav.Link>
                 </Nav>

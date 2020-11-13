@@ -1,7 +1,7 @@
 .navbar-brand {
     float: none;
     margin-right: 0 !important;
-    margin-left: 1.5rem;
+    margin-left: 10rem;
 }
 
 .navbar-header {
@@ -13,6 +13,11 @@
 }
 
 @media screen and (max-width: 1600px) {
+    .navbar-brand {
+        float: none;
+        margin-right: 0 !important;
+        margin-left: 5rem;
+    }
     .navbar-header {
         width: 80%;
         float: left;
@@ -21,7 +26,26 @@
     }
 }
 
+@media screen and (max-width: 800px) {
+    .navbar-brand {
+        float: none;
+        margin-right: 0 !important;
+        margin-left: 0;
+    }
+    .navbar-header {
+        width: 70%;
+        float: left;
+        text-align: center;
+        margin: auto;
+    }
+}
+
 @media screen and (max-width: 400px) {
+    .navbar-brand {
+        float: none;
+        margin-right: 0 !important;
+        margin-left: 0;
+    }
     .navbar-header {
         width: 70%;
         float: left;
