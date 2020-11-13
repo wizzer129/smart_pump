@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, USER_LOADED, USER_LOADING } from './types';
+import { AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, USER_LOADED, USER_LOADING, UPDATE_USER_PROFILE } from './types';
+import { setErrors } from './errors';
 import setAuthToken from '../utils/setAuthToken';
 
 export const login = (user) => async (dispatch) => {
@@ -14,7 +15,7 @@ export const login = (user) => async (dispatch) => {
         dispatch(loadUser());
     } catch (err) {
         console.error(err);
-
+        dispatch(setErrors({ email: 'Invalid username or password' }));
         dispatch({
             type: LOGIN_FAIL,
         });
@@ -33,19 +34,45 @@ export const loadUser = () => async (dispatch) => {
             payload: res.data,
         });
     } catch (err) {
-        console.log(err);
-        dispatch(logout);
+        dispatch({
+            type: AUTH_ERROR,
+        });
     }
 };
 
 export const registerUser = (newUser) => async (dispatch) => {
     try {
         const res = await axios.post('/api/auth', newUser);
-        dispatch({
-            type: USER_LOADED,
-            payload: res.data,
-        });
-    } catch (error) {}
+        return res.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const resetUserPassword = (passwords) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATING_PROFILE, payload: true });
+        const res = await axios.post('/api/auth/reset', passwords);
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        dispatch({ type: UPDATING_PROFILE, payload: false });
+    }
+};
+
+export const updateUser = (user) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATING_PROFILE, payload: true });
+        const res = await axios.post('/api/users', passwords);
+        console.log(res.data);
+        dispatch({ type: UPDATE_USER_PROFILE, payload: res.data });
+    } catch (error) {
+        console.error(error);
+    } finally {
+        dispatch({ type: UPDATING_PROFILE, payload: false });
+    }
 };
 
 export const logout = () => (dispatch) => {

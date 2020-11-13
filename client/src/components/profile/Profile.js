@@ -15,6 +15,11 @@ import UserProfileMedia from '../media/UserProfileMedia';
 import './Profile.css';
 
 const Profile = ({ user }) => {
+    useEffect(() => {
+        return () => {
+            setErrors(null);
+        };
+    }, []);
     const { name, company, ...rest } = user;
     return (
         <Container className="profile-container">

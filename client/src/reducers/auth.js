@@ -1,4 +1,6 @@
 import {
+    UPDATE_USER_PROFILE,
+    UPDATING_PROFILE,
     USER_LOADING,
     USER_LOADED,
     AUTH_ERROR,
@@ -10,7 +12,8 @@ import {
 
 const initialState = {
     isAuthenticated: false,
-    loading: true,
+    loading: false,
+    profileLoading: false,
     user: {},
 };
 
@@ -18,6 +21,16 @@ export default function (state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
+        case UPDATING_PROFILE:
+            return {
+                ...state,
+                profileLoading: payload,
+            };
+        case UPDATE_USER_PROFILE:
+            return {
+                ...state,
+                user: payload,
+            };
         case USER_LOADING:
             return {
                 ...state,
@@ -40,11 +53,7 @@ export default function (state = initialState, action) {
         case LOGIN_FAIL:
         case LOGOUT:
             localStorage.removeItem('token');
-            return {
-                isAuthenticated: false,
-                loading: false,
-                user: {},
-            };
+            return initialState;
         default:
             return state;
     }
