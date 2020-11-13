@@ -28,12 +28,14 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
-                user: payload,
+                user: payload[0],
             };
         case LOGIN_SUCCESS:
             localStorage.setItem('token', payload.token);
             return {
                 ...state,
+                isAuthenticated: true,
+                loading: false,
                 user: payload,
             };
         case AUTH_ERROR:

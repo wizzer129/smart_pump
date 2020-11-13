@@ -1,3 +1,17 @@
+html,
+body,
+#root {
+    height: 100%;
+}
+
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:visited {
+    background-color: #adb5bd;
+    border-color: #adb5bd;
+}
+
 .loadingProfile {
     margin: 0 auto;
 
@@ -22,9 +36,12 @@
     border-radius: 50%;
     background: #fff;
 }
-
-html,
-body,
-#root {
-    height: 100%;
+.fill {
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    width: auto;
+    height: auto;
 }
