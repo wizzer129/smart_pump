@@ -3,7 +3,9 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 // load environment variables
 const envFile = '.env.secrets';
-dotenv.config({ path: `./config/${envFile}` });
+dotenv.config({
+    path: `./config/${envFile}`
+});
 
 const app = express();
 app.use(cors());
@@ -12,8 +14,12 @@ const auth = require('./routes/auth');
 const users = require('./routes/users');
 
 // configure to read json request
-app.use(express.json({ extended: false }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({
+    extended: false
+}));
+app.use(express.urlencoded({
+    extended: true
+}));
 
 app.use('/api/auth', auth);
 app.use('/api/users', users);

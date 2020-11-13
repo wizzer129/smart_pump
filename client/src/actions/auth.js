@@ -10,13 +10,23 @@ import {
     UPDATE_USER_PROFILE,
     UPDATING_PROFILE,
 } from './types';
-import { setErrors } from './errors';
+import {
+    setErrors
+} from './errors';
 import setAuthToken from '../utils/setAuthToken';
 
 export const login = (user) => async (dispatch) => {
-    dispatch({ type: USER_LOADING });
+    dispatch({
+        type: USER_LOADING
+    });
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const body = JSON.stringify(user);
     try {
-        const res = await axios.post('/api/auth', user);
+        const res = await axios.post('/api/auth', body, config);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data,
@@ -59,30 +69,47 @@ export const registerUser = (newUser) => async (dispatch) => {
 
 export const resetUserPassword = (passwords) => async (dispatch) => {
     try {
-        dispatch({ type: UPDATING_PROFILE, payload: true });
+        dispatch({
+            type: UPDATING_PROFILE,
+            payload: true
+        });
         const res = await axios.post('/api/auth/reset', passwords);
         console.log(res.data);
         return res.data;
     } catch (error) {
         console.error(error);
     } finally {
-        dispatch({ type: UPDATING_PROFILE, payload: false });
+        dispatch({
+            type: UPDATING_PROFILE,
+            payload: false
+        });
     }
 };
 
 export const updateUser = (user) => async (dispatch) => {
     try {
-        dispatch({ type: UPDATING_PROFILE, payload: true });
+        dispatch({
+            type: UPDATING_PROFILE,
+            payload: true
+        });
         const res = await axios.post('/api/users', user);
         console.log(res.data);
-        dispatch({ type: UPDATE_USER_PROFILE, payload: res.data });
+        dispatch({
+            type: UPDATE_USER_PROFILE,
+            payload: res.data
+        });
     } catch (error) {
         console.error(error);
     } finally {
-        dispatch({ type: UPDATING_PROFILE, payload: false });
+        dispatch({
+            type: UPDATING_PROFILE,
+            payload: false
+        });
     }
 };
 
 export const logout = () => (dispatch) => {
-    dispatch({ type: LOGOUT });
+    dispatch({
+        type: LOGOUT
+    });
 };

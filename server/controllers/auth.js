@@ -1,8 +1,15 @@
 const jwt = require('jsonwebtoken');
 const dbClient = require('../config/dbClient');
-const { db } = require('../config/database');
-const { hash, compare } = require('../utils/passwordHashing');
-const { v4: uuidv4 } = require('uuid');
+const {
+    db
+} = require('../config/database');
+const {
+    hash,
+    compare
+} = require('../utils/passwordHashing');
+const {
+    v4: uuidv4
+} = require('uuid');
 const uniqid = require('uniqid');
 
 module.exports = {
@@ -12,7 +19,9 @@ module.exports = {
      * @returns success
      */
     registerUser: async (req, res) => {
-        const userExists = await dbClient.getUsers(db(), { email: req.body.email });
+        const userExists = await dbClient.getUsers(db(), {
+            email: req.body.email
+        });
         if (userExists.length > 0) {
             return res.status(400).json({
                 success: false,
@@ -20,7 +29,9 @@ module.exports = {
             });
         }
 
-        const password = hash(req.body.password, { salt: req.body.salt });
+        const password = hash(req.body.password, {
+            salt: req.body.salt
+        });
         try {
             const newUser = {
                 _id: uniqid(),
@@ -42,7 +53,10 @@ module.exports = {
                 salt: password.salt,
             };
             const user = await dbClient.addUser(db(), newUser);
-            return res.json({ success: true, data: user });
+            return res.json({
+                success: true,
+                data: user
+            });
         } catch (err) {
             console.error(err);
             return res.status(500).json({
@@ -60,7 +74,9 @@ module.exports = {
      */
     getAuthUser: async (req, res) => {
         try {
-            const user = await dbClient.getUsers(db(), { _id: req.user._id });
+            const user = await dbClient.getUsers(db(), {
+                _id: req.user._id
+            });
             if (user.length === 0) {
                 res.status(404).json({
                     error: 'User not found',
@@ -75,35 +91,42 @@ module.exports = {
 
     loginUser: async (req, res) => {
         try {
-            const user = await dbClient.getUsers(db(), { email: req.body.email });
+            const user = await dbClient.getUsers(db(), {
+                email: req.body.email
+            });
             if (user.length === 1) {
                 //console.log(payload);
                 const payload = user[0];
                 if (compare(req.body.password, payload.password)) {
                     jwt.sign(
                         payload,
-                        process.env.SECRET_OR_KEY,
-                        { expiresIn: process.env.JWT_EXPIRES_IN },
+                        process.env.SECRET_OR_KEY, {
+                            expiresIn: process.env.JWT_EXPIRES_IN
+                        },
                         (err, token) => {
-                            console.log(err, token);
-                            return res.json({
+                            console.log('success', token);
+                            return res.status(200).json({
                                 user: payload,
-                                token,
+                                token: token,
                             });
                         }
                     );
                 } else {
                     return res.status(401).json({
-                        error: { password: 'Invalid password' },
+                        error: {
+                            password: 'Invalid password'
+                        },
                     });
                 }
             } else {
                 return res.status(404).json({
-                    error: { email: 'Invalid email' },
+                    error: {
+                        email: 'Invalid email'
+                    },
                 });
             }
         } catch (errors) {
-            console.error(errors);
+            //console.error(errors);
             return res.status(500).json({
                 error: 'Server Error',
             });
