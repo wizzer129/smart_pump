@@ -91,6 +91,7 @@ module.exports = {
 
     loginUser: async (req, res) => {
         try {
+            console.log(req.body)
             const user = await dbClient.getUsers(db(), {
                 email: req.body.email
             });
