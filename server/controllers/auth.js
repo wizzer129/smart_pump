@@ -12,20 +12,21 @@ module.exports = {
      * @returns success
      */
     registerUser: async (req, res) => {
-        const userExists = await dbClient.getUsers(db(), {
-            email: req.body.email,
-        });
-        if (userExists.length > 0) {
-            return res.status(400).json({
-                success: false,
-                error: 'Email is already taken',
-            });
-        }
-
-        const password = hash(req.body.password, {
-            salt: req.body.salt,
-        });
         try {
+            const userExists = await dbClient.getUserByQuery(db(), {
+                email: req.body.email,
+            });
+            if (userExists !== undefined) {
+                return res.status(400).json({
+                    success: false,
+                    error: { email: 'Email is already taken' },
+                });
+            }
+
+            const password = hash(req.body.password, {
+                salt: req.body.salt,
+            });
+
             const newUser = {
                 _id: uniqid(),
                 guid: uuidv4(),
@@ -54,7 +55,7 @@ module.exports = {
             console.error(err);
             return res.status(500).json({
                 success: false,
-                error: 'Server Error',
+                error: { server: 'Server Error' },
             });
         }
     },
@@ -67,13 +68,12 @@ module.exports = {
      */
     getAuthUser: async (req, res) => {
         try {
-            const user = await dbClient.getUsers(db(), {
+            const user = await dbClient.getUserByQuery(db(), {
                 email: req.user.email,
             });
-            if (user.length === 0) {
-                res.setHeader('Content-Type', 'text/plain');
+            if (user === undefined) {
                 return res.status(404).json({
-                    error: 'User not found',
+                    error: { email: 'Session has expired' },
                 });
             }
             return res.json(user);
@@ -85,10 +85,10 @@ module.exports = {
 
     loginUser: async (req, res) => {
         try {
-            const user = await dbClient.getUsers(db(), {
+            const user = await dbClient.getUserByQuery(db(), {
                 email: req.body.email,
             });
-            if (user.length === 1) {
+            if (user !== undefined) {
                 //console.log(payload);
                 const payload = user[0];
                 if (compare(req.body.password, payload.password)) {
@@ -107,19 +107,19 @@ module.exports = {
                     );
                 } else {
                     return res.status(401).json({
-                        password: 'Invalid password',
+                        success: false,
+                        error: { email: 'Invalid email or password' },
                     });
                 }
             } else {
-                console.log('invalid email');
-                return res.status(404).json({
+                return res.status(401).json({
+                    success: false,
                     error: {
-                        email: 'Invalid email',
+                        email: 'Invalid email or password',
                     },
                 });
             }
         } catch (errors) {
-            //console.error(errors);
             return res.status(500).json({
                 error: 'Server Error',
             });

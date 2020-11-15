@@ -50,8 +50,9 @@ module.exports = {
     updateUser: async (req, res) => {
         try {
             // only user editable fields
-            let oldUserData = await dbClient.getUsers(db(), { _id: req.user._id });
-            oldUserData = oldUserData[0];
+            console.log('req.user', req.user);
+            let oldUserData = await dbClient.getUsers(db(), req.user._id);
+            console.log('oldUserData', oldUserData);
             let email = req.user.email;
             if (req.body.email !== oldUserData.email) {
                 // check to see if there is an account with new email.

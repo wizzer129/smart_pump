@@ -8,15 +8,29 @@ module.exports = {
         return await db.get('users').filter(filter).sortBy({ name: 'first' }).take(numberToGet).value();
     },
 
+    getUserById: async (db, id) => {
+        return await db.get('users').find({ _id: id }).value();
+    },
+
+    getUserByQuery: async (db, query) => {
+        return await db.get('users').find(query).value();
+    },
+
     addUser: async (db, user) => {
-        return await db.get('users').push(user).write();
+        await db.get('users').push(user).write();
+        return await db.get('users').find({ email: user.email }).value();
     },
 
     updateUser: async (db, user) => {
-        await db.get('users').find({ _id: user._id }).assign(user).value();
-        await db.write();
-        const res = await db.get('users').find({ _id: user._id }).value();
+        try {
+            await db.get('users').find({ _id: user._id }).assign(user).value();
+            await db.write();
+            const res = await db.get('users').find({ _id: user._id }).value();
 
-        return res;
+            return res;
+        } catch {
+            console.log('failed to update DB');
+            return null;
+        }
     },
 };

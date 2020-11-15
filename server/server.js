@@ -31,11 +31,9 @@ app.use(bodyParser.json());
 
 // REST api integration
 const auth = require('./routes/auth');
-const test = require('./routes/test');
 const users = require('./routes/users');
 
 app.use('/api/auth', auth);
-app.use('/api/test', test);
 app.use('/api/users', users);
 
 const PORT = process.env.PORT || 5050;
