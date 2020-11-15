@@ -38,7 +38,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
         phone: '',
     });
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         const { email, first, password, password2 } = formFields;
         let errors = {};
         if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
@@ -57,8 +57,12 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
             errors.password = 'Password is too short';
         }
 
-        if (errors.length === 0) {
-            registerUser(formFields);
+        if (Object.keys(errors).length === 0) {
+            const res = await registerUser(formFields);
+            console.log('register', res);
+            if (res.success) {
+                console.log('user was registered, redirect to login');
+            }
         } else {
             setErrors(errors);
         }

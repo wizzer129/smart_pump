@@ -56,10 +56,17 @@ export const loadUser = () => async (dispatch) => {
 
 export const registerUser = (newUser) => async (dispatch) => {
     try {
+        dispatch({ type: UPDATING_PROFILE, payload: true });
         const res = await axios.post('/api/auth/register', newUser);
-        return res.data;
-    } catch (error) {
-        console.error(error);
+        console.log(res);
+        return res.data.data;
+    } catch (err) {
+        console.error(err.response);
+        dispatch(setErrors(err.response.data.error));
+        return { success: false };
+    } finally {
+        dispatch({ type: UPDATING_PROFILE, payload: false });
+        return { success: false };
     }
 };
 
@@ -88,7 +95,7 @@ export const updateUser = (user) => async (dispatch) => {
             type: UPDATING_PROFILE,
             payload: true,
         });
-        const res = await axios.post('/api/users', user, { timeout: 5000 });
+        const res = await axios.post(`/api/users/`, user, { timeout: 5000 });
         console.log(res.data);
         dispatch({
             type: UPDATE_USER_PROFILE,
