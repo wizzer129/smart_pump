@@ -1,15 +1,8 @@
 const jwt = require('jsonwebtoken');
 const dbClient = require('../config/dbClient');
-const {
-    db
-} = require('../config/database');
-const {
-    hash,
-    compare
-} = require('../utils/passwordHashing');
-const {
-    v4: uuidv4
-} = require('uuid');
+const { db } = require('../config/database');
+const { hash, compare } = require('../utils/passwordHashing');
+const { v4: uuidv4 } = require('uuid');
 const uniqid = require('uniqid');
 
 module.exports = {
@@ -20,7 +13,7 @@ module.exports = {
      */
     registerUser: async (req, res) => {
         const userExists = await dbClient.getUsers(db(), {
-            email: req.body.email
+            email: req.body.email,
         });
         if (userExists.length > 0) {
             return res.status(400).json({
@@ -30,7 +23,7 @@ module.exports = {
         }
 
         const password = hash(req.body.password, {
-            salt: req.body.salt
+            salt: req.body.salt,
         });
         try {
             const newUser = {
@@ -55,7 +48,7 @@ module.exports = {
             const user = await dbClient.addUser(db(), newUser);
             return res.json({
                 success: true,
-                data: user
+                data: user,
             });
         } catch (err) {
             console.error(err);
@@ -75,25 +68,25 @@ module.exports = {
     getAuthUser: async (req, res) => {
         try {
             const user = await dbClient.getUsers(db(), {
-                _id: req.user._id
+                email: req.user.email,
             });
             if (user.length === 0) {
-                res.status(404).json({
+                res.setHeader('Content-Type', 'text/plain');
+                return res.status(404).json({
                     error: 'User not found',
                 });
             }
-            res.json(user);
+            return res.json(user);
         } catch (errors) {
-            console.error(errors.message);
-            res.status(500).send('Server Error');
+            console.error(errors);
+            return res.status(500).json({ errors });
         }
     },
 
     loginUser: async (req, res) => {
         try {
-            console.log(req.body)
             const user = await dbClient.getUsers(db(), {
-                email: req.body.email
+                email: req.body.email,
             });
             if (user.length === 1) {
                 //console.log(payload);
@@ -101,11 +94,11 @@ module.exports = {
                 if (compare(req.body.password, payload.password)) {
                     jwt.sign(
                         payload,
-                        process.env.SECRET_OR_KEY, {
-                            expiresIn: process.env.JWT_EXPIRES_IN
+                        process.env.SECRET_OR_KEY,
+                        {
+                            expiresIn: process.env.JWT_EXPIRES_IN,
                         },
                         (err, token) => {
-                            console.log('success', token);
                             return res.status(200).json({
                                 user: payload,
                                 token: token,
@@ -114,15 +107,14 @@ module.exports = {
                     );
                 } else {
                     return res.status(401).json({
-                        error: {
-                            password: 'Invalid password'
-                        },
+                        password: 'Invalid password',
                     });
                 }
             } else {
+                console.log('invalid email');
                 return res.status(404).json({
                     error: {
-                        email: 'Invalid email'
+                        email: 'Invalid email',
                     },
                 });
             }

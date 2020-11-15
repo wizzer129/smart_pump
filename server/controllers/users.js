@@ -71,7 +71,7 @@ module.exports = {
                 age: req.body.age,
                 address: req.body.address,
                 company: req.body.company,
-                email,
+                email: email,
                 eyeColor: req.body.eyeColor,
                 name: {
                     first: req.body.first ? req.body.first : req.user.name.first,
@@ -79,8 +79,9 @@ module.exports = {
                 },
                 phone: req.body.phone,
             };
+            console.log(updatedUserData);
             const payload = await dbClient.updateUser(db(), updatedUserData);
-
+            console.log(payload);
             // update auth token with new user data
             return res.json({
                 success: true,

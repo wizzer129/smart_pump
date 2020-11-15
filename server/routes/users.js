@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 const validateResults = require('../middleware/validateResults');
 const { check } = require('express-validator');
 const { getUsers, getUser, updateUser } = require('../controllers/users');
@@ -15,13 +15,15 @@ router
     .route('/')
     .get([], getUsers)
     .post(
-        [auth, check('email', 'Please include a valid email').exists().trim().escape().isEmail(), validateResults],
+        [authMiddleware, check('email', 'Please include a valid email').exists().isEmail(), validateResults],
         updateUser
     );
 
 /**
  * @route /api/users
  */
-router.route('/:id').get([auth, check('id', 'Please include a valid user ID').exists(), validateResults], getUser);
+router
+    .route('/:id')
+    .get([authMiddleware, check('id', 'Please include a valid user ID').exists(), validateResults], getUser);
 
 module.exports = router;

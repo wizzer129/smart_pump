@@ -13,9 +13,9 @@ module.exports = {
     },
 
     updateUser: async (db, user) => {
-        db.get('users').find({ _id: user._id }).assign(user).value();
-        db.write();
-        const res = db.get('users').find({ _id: user._id }).value();
+        await db.get('users').find({ _id: user._id }).assign(user).value();
+        await db.write();
+        const res = await db.get('users').find({ _id: user._id }).value();
 
         return res;
     },

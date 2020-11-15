@@ -19,9 +19,10 @@ import './EditProfile.css';
 
 // actions updateUser
 import { setErrors } from '../../actions/errors';
+import { updateUser } from '../../actions/auth';
 
 const EditProfile = (props) => {
-    const { user, errors, setErrors } = props;
+    const { user, errors, setErrors, updateUser } = props;
     const [formFields, updateFormFields] = useState({
         address: '',
         company: '',
@@ -63,6 +64,7 @@ const EditProfile = (props) => {
 
         if (Object.keys(newErrors).length === 0) {
             console.log(formFields);
+            updateUser(formFields);
         } else {
             setErrors(newErrors);
         }
@@ -267,6 +269,7 @@ const EditProfile = (props) => {
 
 EditProfile.propTypes = {
     setErrors: PropTypes.func.isRequired,
+    updateUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -274,4 +277,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors,
 });
 
-export default connect(mapStateToProps, { setErrors })(EditProfile);
+export default connect(mapStateToProps, { setErrors, updateUser })(EditProfile);

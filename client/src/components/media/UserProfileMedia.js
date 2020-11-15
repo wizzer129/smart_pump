@@ -23,7 +23,6 @@ const UserProfileMediaBody = ({ title, description }) => {
 };
 
 const UserProfileMedia = ({ user }) => {
-    console.log(user, UserProfileKeys);
     return (
         <ul className="list-unstyled">
             {UserProfileKeys.map((item) => (

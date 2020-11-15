@@ -25,13 +25,13 @@
       "isActive": true,
       "balance": "$0.00",
       "picture": "http://placehold.it/32x32",
-      "address": "1234 long st",
+      "address": "1234 long st Riverside CA",
       "company": "Lazo Inc.",
       "eyeColor": "brown",
-      "email": "alejandrolazo93@gmail.com",
+      "email": "alejandrolazo@gmail.com",
       "name": {
-        "first": "Alex",
-        "last": "Lazo"
+        "first": "Alejandro",
+        "last": "Lazo Jr"
       },
       "phone": "951 581 9468",
       "password": "1604789499021$10$3be28e1427b8953dd4f8823fb8c4c697",

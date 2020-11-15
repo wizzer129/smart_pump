@@ -12,9 +12,10 @@ const { getAuthUser, registerUser, loginUser } = require('../controllers/auth');
  *      create a User account for them.
  *      Returns {Object} user, {String} token, {Bool} success
  */
+
 router
     .route('/')
-    .get([check('x-auth-token', 'Please include a valid x-auth-token').exists(), authMiddleware], getAuthUser)
+    .get([authMiddleware], getAuthUser)
     .post(
         [
             check('email', 'Please include a valid email').exists().trim().escape(),
