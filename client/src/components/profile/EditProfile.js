@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // ui
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -15,14 +16,15 @@ import TabContent from 'react-bootstrap/TabContent';
 import TabPane from 'react-bootstrap/TabPane';
 import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
+import Spinner from 'react-bootstrap/Spinner';
 import './EditProfile.css';
 
 // actions updateUser
 import { setErrors } from '../../actions/errors';
-import { updateUser } from '../../actions/auth';
+import { resetUserPassword, updateUser } from '../../actions/auth';
 
 const EditProfile = (props) => {
-    const { user, errors, setErrors, updateUser } = props;
+    const { user, errors, loading, resetUserPassword, setErrors, updateUser } = props;
     const [formFields, updateFormFields] = useState({
         address: '',
         company: '',
@@ -83,7 +85,7 @@ const EditProfile = (props) => {
         }
 
         if (password !== password2) {
-            newErrors.password = 'Passwords do not match';
+            newErrors.password2 = 'Passwords do not match';
         }
 
         if (password.length < 6) {
@@ -91,9 +93,8 @@ const EditProfile = (props) => {
         }
 
         if (Object.keys(newErrors).length === 0) {
-            console.log(passwords);
+            resetUserPassword(passwords);
         } else {
-            console.log(newErrors);
             setErrors(newErrors);
         }
     };
@@ -216,9 +217,21 @@ const EditProfile = (props) => {
                                                             />
                                                         </Col>
                                                     </Form.Row>
-
+                                                    <Alert variant="success" style={{ marginTop: '1rem' }}>
+                                                        Your Profile was successfully updated!
+                                                    </Alert>
                                                     <Button fluid="true" onClick={onSubmit} block>
-                                                        Update Profile
+                                                        {loading ? (
+                                                            <Spinner
+                                                                as="span"
+                                                                animation="border"
+                                                                size="sm"
+                                                                role="status"
+                                                                aria-hidden="true"
+                                                            />
+                                                        ) : (
+                                                            'Update Profile'
+                                                        )}
                                                     </Button>
                                                 </Form>
                                             </Card.Body>
@@ -256,8 +269,21 @@ const EditProfile = (props) => {
                                                     placement={'right'}
                                                     toolTip={errors && errors.password2}
                                                 />
+                                                <Alert variant="success" style={{ marginTop: '1rem' }}>
+                                                    Your Profile was successfully updated!
+                                                </Alert>
                                                 <Button fluid="true" onClick={resetPassword} block>
-                                                    Reset Passwords
+                                                    {loading ? (
+                                                        <Spinner
+                                                            as="span"
+                                                            animation="border"
+                                                            size="sm"
+                                                            role="status"
+                                                            aria-hidden="true"
+                                                        />
+                                                    ) : (
+                                                        'Reset Password'
+                                                    )}
                                                 </Button>
                                             </Card.Body>
                                         </TabPane>
@@ -273,13 +299,15 @@ const EditProfile = (props) => {
 };
 
 EditProfile.propTypes = {
+    resetUserPassword: PropTypes.func.isRequired,
     setErrors: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+    loading: state.auth.profileLoading,
     user: state.auth.user,
     errors: state.errors,
 });
 
-export default connect(mapStateToProps, { setErrors, updateUser })(EditProfile);
+export default connect(mapStateToProps, { resetUserPassword, setErrors, updateUser })(EditProfile);

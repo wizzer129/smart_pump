@@ -13,7 +13,12 @@ module.exports = {
     },
 
     getUserByQuery: async (db, query) => {
-        return await db.get('users').find(query).value();
+        try {
+            const val = await db.get('users').find(query).value();
+            return val;
+        } catch (error) {
+            return null;
+        }
     },
 
     addUser: async (db, user) => {

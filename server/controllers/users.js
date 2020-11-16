@@ -49,30 +49,20 @@ module.exports = {
      */
     updateUser: async (req, res) => {
         try {
-            // only user editable fields
-            console.log('req.user', req.user);
-            let oldUserData = await dbClient.getUserByQuery(db(), { _id: req.user._id });
-            console.log('oldUserData', oldUserData);
-            let email = req.user.email;
+            // get user's original profile
+            const oldUserData = await dbClient.getUserByQuery(db(), { guid: req.body.guid });
             if (req.body.email !== oldUserData.email) {
-                // check to see if there is an account with new email.
-                const users = await dbClient.getUsers(db(), { email: req.body.email });
-                if (users.length !== 0) {
-                    return res.status(400).json({
-                        error: 'Email is already taken.',
-                        success: false,
-                    });
-                }
-                email = req.body.email;
-                //console.log('check to see if new email already exists');
+                const checkIfEmailExists = await dbClient.getUsers(db(), { email: req.body.email });
+                console.log(checkIfEmailExists);
+                if (checkIfEmailExists.length > 1)
+                    return res.status(400).json({ success: false, error: { email: 'Email is already taken' } });
             }
-
             const updatedUserData = {
                 ...oldUserData,
                 age: req.body.age,
                 address: req.body.address,
                 company: req.body.company,
-                email: email,
+                email: req.body.email,
                 eyeColor: req.body.eyeColor,
                 name: {
                     first: req.body.first ? req.body.first : req.user.name.first,
@@ -80,9 +70,9 @@ module.exports = {
                 },
                 phone: req.body.phone,
             };
-            console.log(updatedUserData);
+            //console.log(updatedUserData);
             const payload = await dbClient.updateUser(db(), updatedUserData);
-            console.log(payload);
+            console.log('payload', payload);
             // update auth token with new user data
             return res.json({
                 success: true,
@@ -92,7 +82,7 @@ module.exports = {
             console.error(err);
             return res.status(500).json({
                 success: false,
-                error: 'Server Error',
+                error: { email: 'Server Error' },
             });
         }
     },

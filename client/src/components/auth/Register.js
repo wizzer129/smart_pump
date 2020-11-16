@@ -205,7 +205,7 @@ const RegisterForm = ({ errors, loading, registerSuccess, registerUser, setError
                                         'Sign Up'
                                     )}
                                 </Button>
-                                <Button as={Link} fluid="true" to="/login" variant="info" onClick={onSubmit} block>
+                                <Button as={Link} fluid="true" to="/login" variant="info" block>
                                     Back to Login
                                 </Button>
                             </Form>
