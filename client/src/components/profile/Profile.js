@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import React, { useEffect } from 'react';
 import { setErrors } from '../../actions/errors';
@@ -7,9 +6,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import FormInput from '../inputs/FormInput';
-
 import { Link } from 'react-router-dom';
+import ButtonModal from '../modals/ButtonModal';
 import Row from 'react-bootstrap/Row';
 import UserProfileMedia from '../media/UserProfileMedia';
 
@@ -59,9 +57,12 @@ const Profile = ({ user, setErrors }) => {
                                         </div>
                                         <Row className="justify-content-center profile-btn-row">
                                             <Col sm={5}>
-                                                <Button className="btn-secondary profile-btn" block>
-                                                    Balance
-                                                </Button>
+                                                <ButtonModal
+                                                    block
+                                                    buttonClassName="btn-primary profile-btn"
+                                                    buttonText="Balance"
+                                                    modalTitle={`Balance: ${user.balance}`}
+                                                />
                                             </Col>
                                             <Col sm={5}>
                                                 <Button

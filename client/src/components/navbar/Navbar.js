@@ -26,7 +26,7 @@ const NavLink = ({ path, title, eventKey }) => {
 const Navigation = ({ logout }) => {
     const handleSelect = (eventKey) => (eventKey === 'logout' ? logout() : null);
     return (
-        <Navbar collapseOnSelect expand="md" bg="white" className="shadow-lg p-3 rounded">
+        <Navbar collapseOnSelect expand="md" bg="white" className="shadow-lg p-3 rounded" sticky="top">
             <div className="navbar-header">
                 <Navbar.Brand href="/profile">
                     <img src={logo} width="80" height="35" />
