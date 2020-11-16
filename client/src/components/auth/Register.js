@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link, Redirect } from 'react-router-dom';
 
 //actions
-import { registerUser } from '../../actions/auth';
+import { registerUser, setUserRegistered } from '../../actions/auth';
 import { setErrors } from '../../actions/errors';
 
 // ui
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -15,18 +17,13 @@ import Form from 'react-bootstrap/Form';
 import FormInput from '../inputs/FormInput';
 import FormInputOverlay from '../inputs/FormInputOverlay';
 import Row from 'react-bootstrap/Row';
+import Spinner from 'react-bootstrap/Spinner';
 
 import './Login.css';
 import './Register.css';
 
-const RegisterForm = ({ errors, registerUser, setErrors }) => {
-    useEffect(() => {
-        return () => {
-            setErrors(null);
-        };
-    }, []);
-
-    const [formFields, updateFormFields] = useState({
+const RegisterForm = ({ errors, loading, registerSuccess, registerUser, setErrors, setUserRegistered }) => {
+    const formFieldsInitialState = {
         address: '',
         company: '',
         email: '',
@@ -36,9 +33,17 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
         password: '',
         password2: '',
         phone: '',
-    });
+    };
 
-    const onSubmit = async () => {
+    const [formFields, updateFormFields] = useState(formFieldsInitialState);
+
+    useEffect(() => {
+        return () => {
+            setErrors(null);
+        };
+    }, []);
+
+    const onSubmit = () => {
         const { email, first, password, password2 } = formFields;
         let errors = {};
         if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
@@ -58,11 +63,7 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
         }
 
         if (Object.keys(errors).length === 0) {
-            const res = await registerUser(formFields);
-            console.log('register', res);
-            if (res.success) {
-                console.log('user was registered, redirect to login');
-            }
+            registerUser(formFields);
         } else {
             setErrors(errors);
         }
@@ -182,8 +183,30 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
                                         />
                                     </Col>
                                 </Form.Row>
+                                {registerSuccess && (
+                                    <Alert variant="success" style={{ marginTop: '1rem' }}>
+                                        Your account was successfully created!{' '}
+                                        <Alert.Link as={Link} to="/login">
+                                            Click here
+                                        </Alert.Link>{' '}
+                                        to login.
+                                    </Alert>
+                                )}
                                 <Button fluid="true" onClick={onSubmit} block>
-                                    Sign Up
+                                    {loading ? (
+                                        <Spinner
+                                            as="span"
+                                            animation="border"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        />
+                                    ) : (
+                                        'Sign Up'
+                                    )}
+                                </Button>
+                                <Button as={Link} fluid="true" to="/login" variant="info" onClick={onSubmit} block>
+                                    Back to Login
                                 </Button>
                             </Form>
                         </Card.Body>
@@ -197,10 +220,13 @@ const RegisterForm = ({ errors, registerUser, setErrors }) => {
 RegisterForm.propTypes = {
     registerUser: PropTypes.func.isRequired,
     setErrors: PropTypes.func.isRequired,
+    setUserRegistered: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+    loading: state.auth.profileLoading,
+    registerSuccess: state.auth.isUserRegistered,
     errors: state.errors,
 });
 
-export default connect(mapStateToProps, { registerUser, setErrors })(RegisterForm);
+export default connect(mapStateToProps, { registerUser, setErrors, setUserRegistered })(RegisterForm);

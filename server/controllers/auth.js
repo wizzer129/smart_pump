@@ -90,17 +90,16 @@ module.exports = {
             });
             if (user !== undefined) {
                 //console.log(payload);
-                const payload = user[0];
-                if (compare(req.body.password, payload.password)) {
+                if (compare(req.body.password, user.password)) {
                     jwt.sign(
-                        payload,
+                        user,
                         process.env.SECRET_OR_KEY,
                         {
                             expiresIn: process.env.JWT_EXPIRES_IN,
                         },
                         (err, token) => {
                             return res.status(200).json({
-                                user: payload,
+                                user: user,
                                 token: token,
                             });
                         }
@@ -120,6 +119,7 @@ module.exports = {
                 });
             }
         } catch (errors) {
+            console.log(errors);
             return res.status(500).json({
                 error: 'Server Error',
             });

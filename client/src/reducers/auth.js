@@ -8,12 +8,14 @@ import {
     //LOGIN_FAIL,
     LOGOUT,
     LOGIN_FAIL,
+    SET_USER_REGISTERED,
 } from '../actions/types';
 
 const initialState = {
     isAuthenticated: false,
     loading: false,
     profileLoading: false,
+    isUserRegistered: false,
     user: {},
 };
 
@@ -21,6 +23,11 @@ export default function (state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
+        case SET_USER_REGISTERED:
+            return {
+                ...state,
+                isUserRegistered: payload,
+            };
         case UPDATING_PROFILE:
             return {
                 ...state,

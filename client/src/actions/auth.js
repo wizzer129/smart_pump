@@ -9,6 +9,7 @@ import {
     USER_LOADING,
     UPDATE_USER_PROFILE,
     UPDATING_PROFILE,
+    SET_USER_REGISTERED,
 } from './types';
 import { setErrors } from './errors';
 import setAuthToken from '../utils/setAuthToken';
@@ -34,7 +35,6 @@ export const login = (user) => async (dispatch) => {
 };
 
 export const loadUser = () => async (dispatch) => {
-    //console.log('loadUser token: ', axios.defaults.headers.common['x-auth-token']);
     try {
         const res = await axios.get('/api/auth', {
             headers: {
@@ -58,15 +58,15 @@ export const registerUser = (newUser) => async (dispatch) => {
     try {
         dispatch({ type: UPDATING_PROFILE, payload: true });
         const res = await axios.post('/api/auth/register', newUser);
-        console.log(res);
-        return res.data.data;
+        console.log('registering response...', res);
+        dispatch(setUserRegistered(true));
     } catch (err) {
         console.error(err.response);
-        dispatch(setErrors(err.response.data.error));
-        return { success: false };
+        if (err.response.status !== 504) {
+            dispatch(setErrors(err.response.data.error));
+        }
     } finally {
         dispatch({ type: UPDATING_PROFILE, payload: false });
-        return { success: false };
     }
 };
 
@@ -78,6 +78,7 @@ export const resetUserPassword = (passwords) => async (dispatch) => {
         });
         const res = await axios.post('/api/auth/reset', passwords);
         console.log(res.data);
+
         return res.data;
     } catch (error) {
         console.error(error);
@@ -109,6 +110,10 @@ export const updateUser = (user) => async (dispatch) => {
             payload: false,
         });
     }
+};
+
+export const setUserRegistered = (value) => (dispatch) => {
+    dispatch({ type: SET_USER_REGISTERED, payload: value });
 };
 
 export const logout = () => (dispatch) => {
