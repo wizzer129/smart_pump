@@ -15,6 +15,7 @@ import Form from 'react-bootstrap/Form';
 import FormInputOverlay from '../inputs/FormInputOverlay';
 import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner';
+import logo from '../../img/logo.png';
 import './Login.css';
 
 const LoginForm = ({ auth, errors, login, setErrors }) => {
@@ -45,8 +46,10 @@ const LoginForm = ({ auth, errors, login, setErrors }) => {
             <Row className="h-100 align-items-center">
                 <Col sm="9" md="7" lg="5" className="mx-auto">
                     <Card className="card-login align-middle">
-                        <Card.Title className="text-center fadeIn first">Login</Card.Title>
                         <Card.Body>
+                            <Row className="justify-content-center">
+                                <img src={logo} width="225" className="login-logo" />
+                            </Row>
                             <Form className="form-login fadeIn second">
                                 <FormInputOverlay
                                     className="fadeIn third"

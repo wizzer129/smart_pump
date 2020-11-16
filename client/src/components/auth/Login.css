@@ -127,3 +127,7 @@ body {
     -moz-animation-delay: 1s;
     animation-delay: 1s;
 }
+
+.login-logo {
+    padding-bottom: 2rem;
+}
