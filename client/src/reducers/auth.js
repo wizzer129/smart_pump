@@ -1,4 +1,5 @@
 import {
+    EDITED_PROFILE_SUCCESS,
     UPDATE_USER_PROFILE,
     UPDATING_PROFILE,
     USER_LOADING,
@@ -12,6 +13,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
+    editedSuccess: null,
     isAuthenticated: false,
     loading: false,
     profileLoading: false,
@@ -23,6 +25,11 @@ export default function (state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
+        case EDITED_PROFILE_SUCCESS:
+            return {
+                ...state,
+                editedSuccess: payload,
+            };
         case SET_USER_REGISTERED:
             return {
                 ...state,

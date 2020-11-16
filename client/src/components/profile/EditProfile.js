@@ -21,12 +21,22 @@ import './EditProfile.css';
 
 // actions updateUser
 import { setErrors } from '../../actions/errors';
-import { resetUserPassword, updateUser } from '../../actions/auth';
+import { resetUserPassword, updateUser, editedProfileSuccess } from '../../actions/auth';
 
 const EditProfile = (props) => {
-    const { user, errors, loading, resetUserPassword, setErrors, updateUser } = props;
+    const {
+        user,
+        editedProfileSuccess,
+        isEditedSuccess,
+        errors,
+        loading,
+        resetUserPassword,
+        setErrors,
+        updateUser,
+    } = props;
     const [formFields, updateFormFields] = useState({
         address: '',
+        age: '',
         company: '',
         email: '',
         eyeColor: '',
@@ -43,23 +53,32 @@ const EditProfile = (props) => {
 
     useEffect(() => {
         if (user.name) {
-            updateFormFields({ ...user, first: user.name.first, last: user.name.last });
+            updateFormFields({ ...user, first: user.name.first, last: user.name.last, age: user.age.toString() });
         }
     }, [user]);
 
     useEffect(() => {
         return () => {
-            setErrors(null);
+            resetAlerts();
         };
     }, []);
 
+    const resetAlerts = () => {
+        editedProfileSuccess(null);
+        setErrors(null);
+    };
+
     const onSubmit = () => {
         setErrors(null);
-        const { email, first } = formFields;
+        const { email, first, age } = formFields;
 
         let newErrors = {};
         if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
             newErrors.email = 'Enter a valid email';
+        }
+
+        if (!/^\d+$/.test(age)) {
+            newErrors.age = 'Enter a valid age, numbers only';
         }
 
         if (first === '') {
@@ -103,6 +122,7 @@ const EditProfile = (props) => {
                                             className="list-group-item-action active"
                                             data-toggle="list"
                                             href="#account-general"
+                                            onClick={resetAlerts}
                                         >
                                             General
                                         </ListGroup.Item>
@@ -111,16 +131,9 @@ const EditProfile = (props) => {
                                             className=" list-group-item-action"
                                             data-toggle="list"
                                             href="#account-change-password"
+                                            onClick={resetAlerts}
                                         >
                                             Change password
-                                        </ListGroup.Item>
-                                        <ListGroup.Item
-                                            as={Link}
-                                            className="list-group-item-action"
-                                            data-toggle="list"
-                                            to="/profile"
-                                        >
-                                            Back to Profile
                                         </ListGroup.Item>
                                     </ListGroup>
                                 </Col>
@@ -197,7 +210,7 @@ const EditProfile = (props) => {
                                                         </Col>
                                                     </Form.Row>
                                                     <Form.Row>
-                                                        <Col>
+                                                        <Col sm>
                                                             <FormInput
                                                                 label="Phone"
                                                                 type="phone"
@@ -206,10 +219,29 @@ const EditProfile = (props) => {
                                                                 value={formFields.phone}
                                                             />
                                                         </Col>
+                                                        <Col sm>
+                                                            <FormInputOverlay
+                                                                label="Age"
+                                                                type="age"
+                                                                name="age"
+                                                                onChange={onChange}
+                                                                value={formFields.age}
+                                                                isInvalid={errors && errors.age ? true : false}
+                                                                placement={'right'}
+                                                                toolTip={errors && errors.age}
+                                                            />
+                                                        </Col>
                                                     </Form.Row>
-                                                    <Alert variant="success" style={{ marginTop: '1rem' }}>
-                                                        Your Profile was successfully updated!
-                                                    </Alert>
+                                                    {isEditedSuccess === true ? (
+                                                        <Alert variant="success" style={{ marginTop: '1rem' }}>
+                                                            Your Profile was successfully updated!
+                                                        </Alert>
+                                                    ) : null}
+                                                    {isEditedSuccess === false ? (
+                                                        <Alert variant="danger" style={{ marginTop: '1rem' }}>
+                                                            Error 504: Failed to proxy, please try again
+                                                        </Alert>
+                                                    ) : null}
                                                     <Button fluid="true" onClick={onSubmit} block>
                                                         {loading ? (
                                                             <Spinner
@@ -259,9 +291,16 @@ const EditProfile = (props) => {
                                                     placement={'right'}
                                                     toolTip={errors && errors.password2}
                                                 />
-                                                <Alert variant="success" style={{ marginTop: '1rem' }}>
-                                                    Your Profile was successfully updated!
-                                                </Alert>
+                                                {isEditedSuccess === true ? (
+                                                    <Alert variant="success" style={{ marginTop: '1rem' }}>
+                                                        Your Profile was successfully updated!
+                                                    </Alert>
+                                                ) : null}
+                                                {isEditedSuccess === false ? (
+                                                    <Alert variant="danger" style={{ marginTop: '1rem' }}>
+                                                        Error 504: Failed to proxy, please try again
+                                                    </Alert>
+                                                ) : null}
                                                 <Button fluid="true" onClick={resetPassword} block>
                                                     {loading ? (
                                                         <Spinner
@@ -289,15 +328,22 @@ const EditProfile = (props) => {
 };
 
 EditProfile.propTypes = {
+    editedProfileSuccess: PropTypes.func.isRequired,
     resetUserPassword: PropTypes.func.isRequired,
     setErrors: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+    isEditedSuccess: state.auth.editedSuccess,
     loading: state.auth.profileLoading,
     user: state.auth.user,
     errors: state.errors,
 });
 
-export default connect(mapStateToProps, { resetUserPassword, setErrors, updateUser })(EditProfile);
+export default connect(mapStateToProps, {
+    editedProfileSuccess,
+    resetUserPassword,
+    setErrors,
+    updateUser,
+})(EditProfile);

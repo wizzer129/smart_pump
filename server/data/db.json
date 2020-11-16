@@ -7,7 +7,7 @@
       "balance": "$0.00",
       "picture": "http://placehold.it/215x215",
       "address": "1466 Pasture Ln",
-      "age": 0,
+      "age": "14",
       "company": "",
       "eyeColor": "",
       "email": "alejandrolazo93@gmail.com",
@@ -15,7 +15,7 @@
         "first": "Alejandro",
         "last": "Lazo"
       },
-      "phone": "",
+      "phone": "951 581 9468",
       "password": "1605509981797$10$cd125ea126808bf85b74a6cfa0c074be",
       "salt": "1605509981797"
     }

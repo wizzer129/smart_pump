@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
     AUTH_ERROR,
+    EDITED_PROFILE_SUCCESS,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
@@ -75,6 +76,7 @@ export const registerUser = (newUser) => async (dispatch) => {
 };
 
 export const resetUserPassword = (passwords) => async (dispatch) => {
+    dispatch(editedProfileSuccess(null));
     try {
         dispatch({
             type: UPDATING_PROFILE,
@@ -84,8 +86,12 @@ export const resetUserPassword = (passwords) => async (dispatch) => {
         console.log(res.data);
 
         dispatch(setErrors(null));
+        dispatch(editedProfileSuccess(true));
     } catch (err) {
         if (err.response.status !== 504) dispatch(setErrors(err.response.data.errors));
+        else {
+            dispatch(editedProfileSuccess(false));
+        }
     } finally {
         dispatch({
             type: UPDATING_PROFILE,
@@ -95,6 +101,7 @@ export const resetUserPassword = (passwords) => async (dispatch) => {
 };
 
 export const updateUser = (user) => async (dispatch) => {
+    dispatch(editedProfileSuccess(null));
     try {
         dispatch({
             type: UPDATING_PROFILE,
@@ -106,14 +113,22 @@ export const updateUser = (user) => async (dispatch) => {
             type: UPDATE_USER_PROFILE,
             payload: res.data.data,
         });
+        dispatch(editedProfileSuccess(true));
     } catch (err) {
         if (err.response.status !== 504) dispatch(setErrors(err.response.data.errors));
+        else {
+            dispatch(editedProfileSuccess(false));
+        }
     } finally {
         dispatch({
             type: UPDATING_PROFILE,
             payload: false,
         });
     }
+};
+
+export const editedProfileSuccess = (value) => (dispatch) => {
+    dispatch({ type: EDITED_PROFILE_SUCCESS, payload: value });
 };
 
 export const setUserRegistered = (value) => (dispatch) => {
