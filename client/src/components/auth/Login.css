@@ -5,7 +5,6 @@
 
 body {
     background: #007bff;
-    /*background: linear-gradient(to right, #4896fc, #9cd5fc);*/
     background: linear-gradient(to right, #0076f3, #23d4f0);
 }
 
@@ -100,9 +99,9 @@ body {
     -moz-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
 
-    -webkit-animation-duration: 1s;
-    -moz-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: 0.25s;
+    -moz-animation-duration: 0.25s;
+    animation-duration: 0.25s;
 }
 
 .fadeIn.first {
