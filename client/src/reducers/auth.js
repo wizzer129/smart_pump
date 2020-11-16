@@ -48,7 +48,7 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
-                user: payload[0],
+                user: payload,
             };
         case LOGIN_SUCCESS:
             localStorage.setItem('token', payload.token);

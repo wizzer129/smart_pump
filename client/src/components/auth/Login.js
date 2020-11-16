@@ -32,7 +32,6 @@ const LoginForm = ({ auth, errors, login }) => {
     };
 
     if (auth.isAuthenticated) {
-        //removeAlert();
         return <Redirect to="/profile" />;
     }
 
@@ -66,7 +65,7 @@ const LoginForm = ({ auth, errors, login }) => {
                                 <Button fluid="true" onClick={onSubmit} block>
                                     Login
                                 </Button>
-                                <Button as={Link} to="/register" fluid="true" variant="info" onClick={onSubmit} block>
+                                <Button as={Link} to="/register" fluid="true" variant="info" block>
                                     Register
                                 </Button>
                             </Form>

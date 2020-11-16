@@ -125,4 +125,38 @@ module.exports = {
             });
         }
     },
+
+    resetPassword: async (req, res) => {
+        try {
+            const errors = {};
+            console.log(req.user);
+            const user = await dbClient.getUserByQuery(db(), {
+                email: req.user.email,
+            });
+            if (req.body.password.length < 6) {
+                errors.password = 'Password needs to be at least 6 characters';
+            }
+            if (req.body.password !== req.body.password2) {
+                errors.password = 'Password do not match';
+            }
+
+            if (compare(req.body.current, user.password)) {
+                errors.current = 'Invalid password';
+            }
+
+            if (Object.keys(errors).length > 0) {
+                return res.status(401).json({
+                    success: false,
+                    errors,
+                });
+            }
+            return res.json({ success: true });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                success: false,
+                error,
+            });
+        }
+    },
 };

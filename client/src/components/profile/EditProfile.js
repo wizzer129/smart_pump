@@ -40,7 +40,9 @@ const EditProfile = (props) => {
     });
 
     useEffect(() => {
-        updateFormFields({ ...user, first: user.name.first, last: user.name.last });
+        if (user.name) {
+            updateFormFields({ ...user, first: user.name.first, last: user.name.last });
+        }
     }, [user]);
 
     useEffect(() => {

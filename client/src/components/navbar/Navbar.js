@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import './Navbar.css';
 import PropTypes from 'prop-types';
@@ -14,15 +15,16 @@ const getPathname = () => {
     return new useLocation().pathname;
 };
 
-const NavLink = ({ path, title }) => {
+const NavLink = ({ path, title, eventKey }) => {
     return (
-        <Nav.Link as={Link} to={path} active={getPathname() === path}>
+        <Nav.Link as={Link} to={path} active={getPathname() === path} eventKey={eventKey}>
             {title}
         </Nav.Link>
     );
 };
 
 const Navigation = ({ logout }) => {
+    const handleSelect = (eventKey) => (eventKey === 'logout' ? logout() : null);
     return (
         <Navbar collapseOnSelect expand="md" bg="white" className="shadow-lg p-3 rounded">
             <div className="navbar-header">
@@ -32,10 +34,10 @@ const Navigation = ({ logout }) => {
             </div>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="mr-auto">
+                <Nav className="mr-auto" onSelect={handleSelect}>
                     <NavLink path={'/profile'} title="Profile" />
                     <NavLink path={'/profile/edit'} title="Edit Profile" />
-                    <NavLink as="button" onClick={logout} title="Logout" />
+                    <NavLink eventKey="logout" onClick={logout} title="Logout" />
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

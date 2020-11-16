@@ -36,18 +36,21 @@ export const login = (user) => async (dispatch) => {
 
 export const loadUser = () => async (dispatch) => {
     try {
+        dispatch({
+            type: USER_LOADING,
+        });
         const res = await axios.get('/api/auth', {
             headers: {
                 'x-auth-token': localStorage.token,
             },
         });
-
+        console.log(res.data);
         dispatch({
             type: USER_LOADED,
             payload: res.data,
         });
     } catch (err) {
-        console.log('auth error');
+        console.log('auth error', err);
         dispatch({
             type: AUTH_ERROR,
         });

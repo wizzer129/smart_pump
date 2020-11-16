@@ -51,7 +51,7 @@ module.exports = {
         try {
             // only user editable fields
             console.log('req.user', req.user);
-            let oldUserData = await dbClient.getUsers(db(), req.user._id);
+            let oldUserData = await dbClient.getUserByQuery(db(), { _id: req.user._id });
             console.log('oldUserData', oldUserData);
             let email = req.user.email;
             if (req.body.email !== oldUserData.email) {
