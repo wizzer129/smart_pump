@@ -86,7 +86,6 @@ const EditProfile = (props) => {
         }
 
         if (Object.keys(newErrors).length === 0) {
-            console.log(formFields);
             updateUser(formFields);
         } else {
             setErrors(newErrors);

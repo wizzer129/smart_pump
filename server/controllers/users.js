@@ -11,7 +11,6 @@ module.exports = {
             const user = await dbClient.getUsers(db(), { _id: req.params.id }, 10);
             return res.json({ success: true, data: user });
         } catch (err) {
-            console.error(err);
             return res.status(500).json({
                 success: false,
                 error: 'Server Error',
@@ -29,7 +28,6 @@ module.exports = {
             const users = await dbClient.getUsers(db(), {}, 10);
             return res.json({ success: true, data: users });
         } catch (err) {
-            console.error(err);
             return res.status(500).json({
                 msg: err,
                 success: false,
@@ -73,7 +71,6 @@ module.exports = {
                 data: payload,
             });
         } catch (err) {
-            console.error(err);
             return res.status(500).json({
                 success: false,
                 error: { email: 'Server Error' },

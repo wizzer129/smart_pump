@@ -52,7 +52,6 @@ module.exports = {
                 data: user,
             });
         } catch (err) {
-            console.error(err);
             return res.status(500).json({
                 success: false,
                 error: { server: 'Server Error' },

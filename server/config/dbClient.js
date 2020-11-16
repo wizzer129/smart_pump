@@ -34,7 +34,6 @@ module.exports = {
 
             return res;
         } catch {
-            console.log('failed to update DB');
             return null;
         }
     },

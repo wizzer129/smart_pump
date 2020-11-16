@@ -28,7 +28,6 @@ export const login = (user) => async (dispatch) => {
         setAuthToken(res.data.token);
         //dispatch(loadUser());
     } catch (err) {
-        console.log('login error', err);
         if (err.response.status !== 504) dispatch(setErrors(err.response.data.error));
         dispatch({
             type: LOGIN_FAIL,
@@ -63,10 +62,8 @@ export const registerUser = (newUser) => async (dispatch) => {
         dispatch(setErrors(null));
         dispatch({ type: UPDATING_PROFILE, payload: true });
         const res = await axios.post('/api/auth/register', newUser);
-        console.log(res.data);
         dispatch(setUserRegistered(true));
     } catch (err) {
-        console.error(err.response);
         if (err.response.status !== 504) {
             dispatch(setErrors(err.response.data.error));
         }
@@ -82,8 +79,7 @@ export const resetUserPassword = (passwords) => async (dispatch) => {
             type: UPDATING_PROFILE,
             payload: true,
         });
-        const res = await axios.post('/api/auth/reset', passwords);
-        console.log(res.data);
+        await axios.post('/api/auth/reset', passwords);
 
         dispatch(setErrors(null));
         dispatch(editedProfileSuccess(true));
@@ -108,7 +104,6 @@ export const updateUser = (user) => async (dispatch) => {
             payload: true,
         });
         const res = await axios.post(`/api/users`, user);
-        console.log(res.data);
         dispatch({
             type: UPDATE_USER_PROFILE,
             payload: res.data.data,

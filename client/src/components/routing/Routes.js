@@ -20,11 +20,6 @@ const Routes = (props) => {
 
             try {
                 const res = await axios.get('/api/auth/');
-                //const res = await fetch('/api/users', { headers: { 'x-auth-token': localStorage.token } });
-                console.log(res);
-                //const data = await res.json(); // one extra step
-
-                //console.log(data);
                 if (res.status === 200) {
                     dispatch({
                         type: USER_LOADED,
