@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import FormInput from '../inputs/FormInput';
 import FormInputOverlay from '../inputs/FormInputOverlay';
-
+import ListGroup from 'react-bootstrap/ListGroup';
 import TabContent from 'react-bootstrap/TabContent';
 import TabPane from 'react-bootstrap/TabPane';
 import { Link } from 'react-router-dom';
@@ -117,29 +117,32 @@ const EditProfile = (props) => {
                             </Card.Title>
                             <Row className="no-gutters row-bordered row-border-light">
                                 <Col md={3} className="pt-0">
-                                    <div className="list-group list-group-flush account-settings-links">
-                                        <a
-                                            className="list-group-item list-group-item-action active"
+                                    <ListGroup className="list-group-flush account-settings-links">
+                                        <ListGroup.Item
+                                            as="a"
+                                            className="list-group-item-action active"
                                             data-toggle="list"
                                             href="#account-general"
                                         >
                                             General
-                                        </a>
-                                        <a
-                                            className="list-group-item list-group-item-action"
+                                        </ListGroup.Item>
+                                        <ListGroup.Item
+                                            as="a"
+                                            className=" list-group-item-action"
                                             data-toggle="list"
                                             href="#account-change-password"
                                         >
                                             Change password
-                                        </a>
-                                        <Link
-                                            className="list-group-item list-group-item-action"
+                                        </ListGroup.Item>
+                                        <ListGroup.Item
+                                            as={Link}
+                                            className="list-group-item-action"
                                             data-toggle="list"
                                             to="/profile"
                                         >
                                             Back to Profile
-                                        </Link>
-                                    </div>
+                                        </ListGroup.Item>
+                                    </ListGroup>
                                 </Col>
                                 <Col md={9}>
                                     <TabContent>

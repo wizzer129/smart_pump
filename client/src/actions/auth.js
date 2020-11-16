@@ -45,7 +45,6 @@ export const loadUser = () => async (dispatch) => {
                 'x-auth-token': localStorage.token,
             },
         });
-        console.log(res.data);
         dispatch({
             type: USER_LOADED,
             payload: res.data,
@@ -62,7 +61,7 @@ export const registerUser = (newUser) => async (dispatch) => {
     try {
         dispatch({ type: UPDATING_PROFILE, payload: true });
         const res = await axios.post('/api/auth/register', newUser);
-        console.log('registering response...', res);
+        console.log(res.data);
         dispatch(setUserRegistered(true));
     } catch (err) {
         console.error(err.response);
@@ -100,7 +99,7 @@ export const updateUser = (user) => async (dispatch) => {
             type: UPDATING_PROFILE,
             payload: true,
         });
-        const res = await axios.post(`/api/users/`, user, { timeout: 5000 });
+        const res = await axios.post(`/api/users`, user);
         console.log(res.data);
         dispatch({
             type: UPDATE_USER_PROFILE,

@@ -1,0 +1,23 @@
+.loadingProfile {
+    margin: 0 auto;
+    height: 150px;
+    width: 150px;
+    position: relative;
+    border-radius: 50%;
+    background: linear-gradient(to right, #00e3f3, #0042bd);
+    -webkit-animation: rotate 0.75s infinite linear;
+    animation: rotate 0.75s infinite linear;
+}
+
+.loadingProfile:after {
+    content: '';
+    height: 140px;
+    width: 140px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #fff;
+}
