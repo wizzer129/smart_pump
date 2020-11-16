@@ -1,6 +1,6 @@
 # Smart Pump Profile
 
-Live version available at smartpump.alazo.io
+Live version available at [smartpump.alazo.io](https://smartpump.alazo.io)
 
 ### Tech Stack
 
