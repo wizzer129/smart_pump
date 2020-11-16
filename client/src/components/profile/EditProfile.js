@@ -14,7 +14,6 @@ import FormInputOverlay from '../inputs/FormInputOverlay';
 import ListGroup from 'react-bootstrap/ListGroup';
 import TabContent from 'react-bootstrap/TabContent';
 import TabPane from 'react-bootstrap/TabPane';
-import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner';
 import './EditProfile.css';
@@ -134,6 +133,14 @@ const EditProfile = (props) => {
                                         >
                                             Change password
                                         </ListGroup.Item>
+                                        <ListGroup.Item
+                                            as="a"
+                                            className="list-group-item-action"
+                                            data-toggle="list"
+                                            href="/profile"
+                                        />
+                                            
+                                        
                                     </ListGroup>
                                 </Col>
                                 <Col md={9}>

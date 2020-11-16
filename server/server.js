@@ -29,7 +29,7 @@ const users = require('./routes/users');
 app.use('/api/auth', auth);
 app.use('/api/users', users);
 
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.NODE_ENV !== 'dev' ? process.env.PORT : 5000;
 
 if (process.env.NODE_ENV === 'production') {
     //set static folder
