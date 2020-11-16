@@ -1,80 +1,23 @@
 {
   "users": [
     {
-      "_id": "d8gr0h3gtikhk25cp8",
-      "guid": "bb6fcd3b-8b4b-4a9a-b7c9-69ca7017c71c",
-      "isActive": false,
-      "balance": "$0.00",
-      "picture": "http://placehold.it/215x215",
-      "address": "123",
-      "age": 0,
-      "company": "lazo inc",
-      "eyeColor": "brown",
-      "email": "alejandrolazo94@gmail.com",
-      "name": {
-        "first": "123",
-        "last": "last"
-      },
-      "phone": "",
-      "password": "1605501514122$10$c936e9cc051f314d076fd79a1205f3f2",
-      "salt": "1605501514122"
-    },
-    {
-      "_id": "d8gr0h46mqkhk54jzx",
-      "guid": "279c69f7-54e8-43ea-a686-7cc76778f884",
+      "_id": "d8gr0h4r4okhk76uee",
+      "guid": "6eb1ef08-3650-4e3a-b0f6-2696de86667a",
       "isActive": false,
       "balance": "$0.00",
       "picture": "http://placehold.it/215x215",
       "address": "1466 Pasture Ln",
       "age": 0,
-      "company": "ATS",
-      "eyeColor": "brown",
-      "email": "alejandrolazo95@gmail.com",
+      "company": "",
+      "eyeColor": "",
+      "email": "alejandrolazo93@gmail.com",
       "name": {
         "first": "Alejandro",
         "last": "Lazo"
       },
       "phone": "",
-      "password": "1605506515771$10$ae3f9c5f5d8f7af1808206cd076e148e",
-      "salt": "1605506515771"
-    },
-    {
-      "_id": "d8gr0h4fn1khk63kxa",
-      "guid": "3ad85793-6099-4e83-87ed-1d5708a77864",
-      "isActive": false,
-      "balance": "$0.00",
-      "picture": "http://placehold.it/215x215",
-      "address": "123",
-      "age": 0,
-      "company": "123",
-      "eyeColor": "123",
-      "email": "alejandro@gmail.com",
-      "name": {
-        "first": "123",
-        "last": "123"
-      },
-      "phone": "951 581 9468",
-      "password": "1605508149932$10$58fd91bd26adf51272929a6349aa768f",
-      "salt": "1605508149932"
-    },
-    {
-      "_id": "d8gr0h4fxvkhk63tc6",
-      "guid": "819b47aa-adb1-44eb-b9ca-1b7540999774",
-      "isActive": false,
-      "balance": "$0.00",
-      "picture": "http://placehold.it/215x215",
-      "address": "123",
-      "age": 0,
-      "company": "123",
-      "eyeColor": "123",
-      "email": "alejandro1@gmail.com",
-      "name": {
-        "first": "123",
-        "last": "123"
-      },
-      "phone": "",
-      "password": "1605508160835$10$ec3aa1aa18351cff216f5dca01a4a3f2",
-      "salt": "1605508160835"
+      "password": "1605509981797$10$cd125ea126808bf85b74a6cfa0c074be",
+      "salt": "1605509981797"
     }
   ]
 }

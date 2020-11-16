@@ -4,8 +4,7 @@ const { db } = require('../config/database');
 module.exports = {
     /**
      * @route GET /api/users/:id
-     * @param {*} req
-     * @param {*} res
+     * @desc gets a user by id
      */
     getUser: async (req, res) => {
         try {
@@ -22,8 +21,6 @@ module.exports = {
 
     /**
      * @route GET /api/users
-     * @param {*} req
-     * @param {*} res
      * @desc retrieves 10 users
      */
     getUsers: async (req, res) => {
@@ -43,8 +40,7 @@ module.exports = {
 
     /**
      * @route POST /api/users
-     * @param {*} req
-     * @param {*} res
+     * @body {User json }
      * @desc allows user to edit their own profile
      */
     updateUser: async (req, res) => {

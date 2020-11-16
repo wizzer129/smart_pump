@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// save jwt in localstorage
 const setAuthToken = (token) => {
     if (token) {
         axios.defaults.headers.common['x-auth-token'] = token;

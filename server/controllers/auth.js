@@ -83,6 +83,12 @@ module.exports = {
         }
     },
 
+    /**
+     * @desc Retrieves user account if jwt is valid
+     * @route POST /api/auth
+     * @body {username: String, password: String}
+     * @returns user profile and new session token
+     */
     loginUser: async (req, res) => {
         try {
             const user = await dbClient.getUserByQuery(db(), {
@@ -126,6 +132,12 @@ module.exports = {
         }
     },
 
+    /**
+     * @desc Resets user's password
+     * @route POST /api/auth/reset
+     * @body {username: String, password: String}
+     * @returns success bool
+     */
     resetPassword: async (req, res) => {
         try {
             const errors = {};
