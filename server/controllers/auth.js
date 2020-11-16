@@ -30,9 +30,9 @@ module.exports = {
             const newUser = {
                 _id: uniqid(),
                 guid: uuidv4(),
-                isActive: true,
+                isActive: false,
                 balance: '$0.00',
-                picture: 'http://placehold.it/32x32',
+                picture: 'http://placehold.it/215x215',
                 address: req.body.address ? req.body.address : '',
                 age: req.body.age ? req.body.age : 0,
                 company: req.body.company ? req.body.company : '',

@@ -37,7 +37,7 @@ const Navigation = ({ logout }) => {
                 <Nav className="mr-auto" onSelect={handleSelect}>
                     <NavLink path={'/profile'} title="Profile" />
                     <NavLink path={'/profile/edit'} title="Edit Profile" />
-                    <NavLink eventKey="logout" onClick={logout} title="Logout" />
+                    <NavLink path={''} eventKey="logout" onClick={logout} title="Logout" />
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

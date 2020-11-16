@@ -28,6 +28,7 @@ export const login = (user) => async (dispatch) => {
         //dispatch(loadUser());
     } catch (err) {
         console.log('login error', err);
+        dispatch(setErrors(err.response.data.error));
         dispatch({
             type: LOGIN_FAIL,
         });

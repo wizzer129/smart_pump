@@ -21,7 +21,9 @@ const Profile = ({ user, setErrors }) => {
             setErrors(null);
         };
     }, []);
-    const { name, company, ...rest } = user;
+
+    const { name, company, picture, ...rest } = user;
+
     return (
         <Container className="profile-container">
             <Row className="align-items-center justify-content-center">
@@ -31,17 +33,14 @@ const Profile = ({ user, setErrors }) => {
                             <div className="profile">
                                 <div className="profile-top">
                                     <Row className="justify-content-center">
-                                        <Col sm={6}>
-                                            <div className="profile-avatar text-center">
-                                                <img
-                                                    src="http://placehold.it/150x150"
-                                                    alt="user-profile"
-                                                    className="rounded-circle img-fluid"
-                                                    width="150"
-                                                    height="150"
-                                                />
-                                            </div>
-                                        </Col>
+                                        <div className="profile-avatar text-center">
+                                            <img
+                                                src={picture}
+                                                alt="user-profile"
+                                                className="rounded-circle img-fluid"
+                                                width="75%"
+                                            />
+                                        </div>
                                     </Row>
                                 </div>
                             </div>
@@ -71,7 +70,7 @@ const Profile = ({ user, setErrors }) => {
                                                     className="btn-secondary profile-btn"
                                                     block
                                                 >
-                                                    Edit
+                                                    Edit Profile
                                                 </Button>
                                             </Col>
                                         </Row>

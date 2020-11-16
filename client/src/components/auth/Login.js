@@ -11,9 +11,9 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import FormInput from '../inputs/FormInput';
+import FormInputOverlay from '../inputs/FormInputOverlay';
 import Row from 'react-bootstrap/Row';
-
+import Spinner from 'react-bootstrap/Spinner';
 import './Login.css';
 
 const LoginForm = ({ auth, errors, login }) => {
@@ -23,7 +23,6 @@ const LoginForm = ({ auth, errors, login }) => {
     });
 
     const onSubmit = ({ target }) => {
-        console.log(target);
         login(formFields);
     };
 
@@ -43,27 +42,41 @@ const LoginForm = ({ auth, errors, login }) => {
                         <Card.Title className="text-center fadeIn first">Login</Card.Title>
                         <Card.Body>
                             <Form className="form-login fadeIn second">
-                                <FormInput
+                                <FormInputOverlay
                                     className="fadeIn third"
                                     label="Email Address"
                                     type="email"
                                     name="email"
                                     onChange={onChange}
                                     value={formFields.email}
-                                    isInvalid={errors && errors.email}
+                                    isInvalid={errors && errors.email ? true : false}
+                                    placement={'left'}
+                                    toolTip={errors && errors.email}
                                 />
 
-                                <FormInput
+                                <FormInputOverlay
                                     label="Password"
                                     type="password"
                                     name="password"
                                     className="fadeIn third"
                                     onChange={onChange}
                                     value={formFields.password}
-                                    isInvalid={errors && errors.password}
+                                    isInvalid={errors && errors.password ? true : false}
+                                    placement={'left'}
+                                    toolTip={errors && errors.password}
                                 />
                                 <Button fluid="true" onClick={onSubmit} block>
-                                    Login
+                                    {auth.loading ? (
+                                        <Spinner
+                                            as="span"
+                                            animation="border"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        />
+                                    ) : (
+                                        'Log In'
+                                    )}
                                 </Button>
                                 <Button as={Link} to="/register" fluid="true" variant="info" block>
                                     Register
