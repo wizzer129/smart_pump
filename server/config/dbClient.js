@@ -38,4 +38,10 @@ module.exports = {
             return null;
         }
     },
+
+    updateSingleEntry: async (db, query, field) => {
+        await db.get('users').find(query).assign(field).value();
+        await db.write();
+        return;
+    },
 };

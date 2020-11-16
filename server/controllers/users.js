@@ -1,6 +1,6 @@
 const dbClient = require('../config/dbClient');
 const { db } = require('../config/database');
-const jwt = require('jsonwebtoken');
+
 module.exports = {
     /**
      * @route GET /api/users/:id
@@ -53,7 +53,6 @@ module.exports = {
             const oldUserData = await dbClient.getUserByQuery(db(), { guid: req.body.guid });
             if (req.body.email !== oldUserData.email) {
                 const checkIfEmailExists = await dbClient.getUsers(db(), { email: req.body.email });
-                console.log(checkIfEmailExists);
                 if (checkIfEmailExists.length > 1)
                     return res.status(400).json({ success: false, error: { email: 'Email is already taken' } });
             }
@@ -72,7 +71,6 @@ module.exports = {
             };
             //console.log(updatedUserData);
             const payload = await dbClient.updateUser(db(), updatedUserData);
-            console.log('payload', payload);
             // update auth token with new user data
             return res.json({
                 success: true,

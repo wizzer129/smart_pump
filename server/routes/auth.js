@@ -3,7 +3,8 @@ const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
 const validateResults = require('../middleware/validateResults');
 const { check } = require('express-validator');
-const { getAuthUser, registerUser, loginUser } = require('../controllers/auth');
+const { getAuthUser, loginUser, registerUser, resetPassword } = require('../controllers/auth');
+
 /**
  * @route /api/auth
  * @desc
@@ -42,5 +43,7 @@ router
         ],
         registerUser
     );
+
+router.route('/reset').post([authMiddleware], resetPassword);
 
 module.exports = router;

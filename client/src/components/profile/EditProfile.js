@@ -75,28 +75,7 @@ const EditProfile = (props) => {
     };
 
     const resetPassword = () => {
-        setErrors(null);
-        const { current, password, password2 } = passwords;
-
-        let newErrors = {};
-
-        if (current === '') {
-            newErrors.current = 'Invalid password';
-        }
-
-        if (password !== password2) {
-            newErrors.password2 = 'Passwords do not match';
-        }
-
-        if (password.length < 6) {
-            newErrors.password = 'Password is too short';
-        }
-
-        if (Object.keys(newErrors).length === 0) {
-            resetUserPassword(passwords);
-        } else {
-            setErrors(newErrors);
-        }
+        resetUserPassword(passwords);
     };
 
     const onChange = ({ target }) => {
@@ -214,6 +193,17 @@ const EditProfile = (props) => {
                                                                 name="address"
                                                                 onChange={onChange}
                                                                 value={formFields.address}
+                                                            />
+                                                        </Col>
+                                                    </Form.Row>
+                                                    <Form.Row>
+                                                        <Col>
+                                                            <FormInput
+                                                                label="Phone"
+                                                                type="phone"
+                                                                name="phone"
+                                                                onChange={onChange}
+                                                                value={formFields.phone}
                                                             />
                                                         </Col>
                                                     </Form.Row>

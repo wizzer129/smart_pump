@@ -131,8 +131,9 @@ module.exports = {
             const errors = {};
             console.log(req.user);
             const user = await dbClient.getUserByQuery(db(), {
-                email: req.user.email,
+                guid: req.user.guid,
             });
+            console.log(user);
             if (req.body.password.length < 6) {
                 errors.password = 'Password needs to be at least 6 characters';
             }
@@ -140,16 +141,24 @@ module.exports = {
                 errors.password = 'Password do not match';
             }
 
-            if (compare(req.body.current, user.password)) {
+            //console.log(req.body.current, user.password);
+            if (!compare(req.body.current, user.password)) {
                 errors.current = 'Invalid password';
             }
 
             if (Object.keys(errors).length > 0) {
+                console.log(errors);
                 return res.status(401).json({
                     success: false,
                     errors,
                 });
             }
+
+            const newPassword = hash(req.body.password, {
+                salt: user.salt,
+            });
+
+            await dbClient.updateSingleEntry(db(), { guid: user.guid }, { password: newPassword.password });
             return res.json({ success: true });
         } catch (error) {
             console.log(error);

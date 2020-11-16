@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 //actions
 import { login } from '../../actions/auth';
+import { setErrors } from '../../actions/errors';
 
 // ui
 import Button from 'react-bootstrap/Button';
@@ -16,7 +17,12 @@ import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner';
 import './Login.css';
 
-const LoginForm = ({ auth, errors, login }) => {
+const LoginForm = ({ auth, errors, login, setErrors }) => {
+    useEffect(() => {
+        return () => {
+            setErrors(null);
+        };
+    }, []);
     const [formFields, updateFormFields] = useState({
         email: '',
         password: '',
@@ -96,7 +102,8 @@ const mapStateToProps = (state) => ({
 });
 
 LoginForm.propTypes = {
+    setErrors: PropTypes.func.isRequired,
     login: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { login })(LoginForm);
+export default connect(mapStateToProps, { login, setErrors })(LoginForm);

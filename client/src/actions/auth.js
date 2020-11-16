@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import {
     AUTH_ERROR,
     LOGIN_SUCCESS,
@@ -18,6 +17,7 @@ export const login = (user) => async (dispatch) => {
     dispatch({
         type: USER_LOADING,
     });
+    dispatch(setErrors(null));
     try {
         const res = await axios.post('/api/auth', user);
         dispatch({
@@ -28,7 +28,7 @@ export const login = (user) => async (dispatch) => {
         //dispatch(loadUser());
     } catch (err) {
         console.log('login error', err);
-        dispatch(setErrors(err.response.data.error));
+        if (err.response.status !== 504) dispatch(setErrors(err.response.data.error));
         dispatch({
             type: LOGIN_FAIL,
         });
@@ -59,6 +59,7 @@ export const loadUser = () => async (dispatch) => {
 
 export const registerUser = (newUser) => async (dispatch) => {
     try {
+        dispatch(setErrors(null));
         dispatch({ type: UPDATING_PROFILE, payload: true });
         const res = await axios.post('/api/auth/register', newUser);
         console.log(res.data);
@@ -82,9 +83,9 @@ export const resetUserPassword = (passwords) => async (dispatch) => {
         const res = await axios.post('/api/auth/reset', passwords);
         console.log(res.data);
 
-        return res.data;
-    } catch (error) {
-        console.error(error);
+        dispatch(setErrors(null));
+    } catch (err) {
+        if (err.response.status !== 504) dispatch(setErrors(err.response.data.errors));
     } finally {
         dispatch({
             type: UPDATING_PROFILE,
@@ -105,8 +106,8 @@ export const updateUser = (user) => async (dispatch) => {
             type: UPDATE_USER_PROFILE,
             payload: res.data.data,
         });
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        if (err.response.status !== 504) dispatch(setErrors(err.response.data.errors));
     } finally {
         dispatch({
             type: UPDATING_PROFILE,
